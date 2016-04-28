@@ -147,12 +147,12 @@ var PlanetForm = React.createClass({
         var scene = new THREE.Scene();
         scene.name = "planetScene"
 
+        console.log(document.getElementById('zone-container').innerWidth)
 
-
-        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+        var camera = new THREE.PerspectiveCamera(75, 800 / 600, 0.1, 10000);
 
         var renderer = new THREE.WebGLRenderer();
-        renderer.setSize( window.innerWidth, window.innerHeight);
+        renderer.setSize( 800, 600 );
 
         scene.add(camera)
         camera.position.z = 100
