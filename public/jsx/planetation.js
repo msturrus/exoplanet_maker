@@ -13,10 +13,10 @@ var PlanetForm = React.createClass({
         return {planets: []}
       },
 
-      handleplanetRadiusChange: function(event){
+      handleRadiusChange: function(event){
         console.log(event.target.value)
         var state = this.state;
-        state.planetRadius = event.target.value;
+        state.radius = event.target.value;
         this.setState(state);
         console.log(this.state)
       },
@@ -45,32 +45,11 @@ var PlanetForm = React.createClass({
       handleSubmit: function(event){
         event.preventDefault();
         var self = this;
-        var cache = new LastFMCache();
         console.log(this);
 
-        var lastfm = new LastFM({
-              apiKey    : 'f21088bf9097b49ad4e7f487abab981e',
-              apiSecret : '7ccaec2093e33cded282ec7bc81c6fca',
-              cache     : cache
-            });
-        lastfm.album.search({album: self.state.planetRadius}, {success: function(data){
-              console.log(data);
-              console.log(data.results.albummatches.album[0].name);
-              console.log(data.results.albummatches.album[0].image[2]["#text"]);
-              console.log(data.results.albummatches.album[0].artist);
-
-              document.getElementById('results-zone').innerHTML = "";
-              document.getElementById('search-box').val = "";
 
 
-              var state = self.state;
-              var albumInfo = {
-                albumName: data.results.albummatches.album[0].name,
-                albumCover: data.results.albummatches.album[0].image[2]["#text"],
-                albumArtist: data.results.albummatches.album[0].artist
-              }
-
-              state.albums.push(albumInfo);
+              state.planets.push(albumInfo);
               var albumName = data.results.albummatches.album[0].name;
               var albumCover = data.results.albummatches.album[0].image[2]["#text"];
               var albumArtist = data.results.albummatches.album[0].artist;
@@ -92,13 +71,13 @@ var PlanetForm = React.createClass({
         return(
           <div id="results-container">
             <form className="PlanetForm" onSubmit={this.handleSubmit}>
-              <input id="search-box" type="text" placeholder="Search for an album" onChange={this.handleplanetRadiusChange} value={this.state.planetRadius}/>
+              <input id="search-box" type="text" placeholder="Search for an album" onChange={this.handleRadiusChange} value={this.state.radius}/>
               <button className="btn btn-primary" type="submit" value="post">Search</button>
             </form>
             <div id='results-zone'>
             {
-              this.state.albums.map(function(album, i){
-                return <AlbumDiv albumCover={album.albumCover} album={album.albumName} artist={album.albumArtist} location={1} key={i} />
+              this.state.planets.map(function(planet, i){
+                return <PlanetDiv radius={planet.radius} location={1} key={i} />
               }.bind(this))
             }
             </div>
@@ -108,26 +87,28 @@ var PlanetForm = React.createClass({
       }
     })
 
-    var AlbumDiv = React.createClass({
+    var PlanetDiv = React.createClass({
       render: function() {
         return (
-          <div draggable="true" className="planet-div">
-            <img className="album-cover" src={this.props.albumCover} draggable="false" />
-            <input type="hidden" name="albumCover" value={this.props.albumCover} />
-            <p className="album-name">{this.props.album}</p>
-            <input type="hidden" name="album" value={this.props.album} />
-            <p className="artist-name">{this.props.artist}</p>
-            <input type="hidden" name="artist" value={this.props.artist} />
-            <input type="hidden" name="key" value={this.props.key} />
-            <input type="hidden" name="location" value={this.props.location} />
 
+          var planetGeometry = new THREE.SphereGeometry({this.props.radius}, 32, 32)
 
-          </div>
+          var material = new THREE.MeshLambertMaterial()
+
+          var planetMesh = new THREE.Mesh(sunGeometry, material)
+          scene.add(planetMesh)
+
+          var planet = new THREE.Mesh(sunGeometry, material)
+
+          scene.add(planet);
+
         )
       }
     })
 
     ReactDOM.render(<PlanetForm/>, document.getElementById('example'))
+
+    // material.map  = THREE.TextureLoader('mars_1k_color.jpg')
 
     // <div draggable="true" className="album-div">
     // <img src={this.state.albumCover} draggable="false" />
