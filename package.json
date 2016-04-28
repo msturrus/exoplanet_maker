@@ -29,7 +29,9 @@
     "react-dnd": "^2.1.4",
     "react-dnd-html5-backend": "^2.1.2",
     "react-dom": "^15.0.1",
-    "serve-favicon": "~2.3.0"
+    "react-three": "^0.9.1",
+    "serve-favicon": "~2.3.0",
+    "three": "^0.76.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
@@ -42,7 +44,6 @@
     "gulp-webserver": "^0.9.1",
     "gulp-watch": "^4.3.5"
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/msturrus/exoplanet_maker.git"
@@ -52,6 +53,5 @@
   "bugs": {
     "url": "https://github.com/msturrus/exoplanet_maker/issues"
   },
-
   "homepage": "https://github.com/msturrus/exoplanet_maker#readme"
 }
