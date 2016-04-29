@@ -151,6 +151,8 @@ var PlanetForm = React.createClass({
 
         var camera = new THREE.PerspectiveCamera(75, 800 / 600, 0.1, 10000);
 
+        camera.name = "camera"
+
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize( 800, 600 );
 
@@ -215,7 +217,7 @@ var PlanetForm = React.createClass({
         function render(){
           requestAnimationFrame(render)
 
-          var time = performance.now() * 0.001
+          var time = Date.now() * 0.001
 
           // sun.position.x = Math.cos( time ) * 800;
           // sun.position.y = Math.sin( time ) * 400;
