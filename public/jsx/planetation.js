@@ -164,14 +164,29 @@ var PlanetForm = React.createClass({
         var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
         console.log(planetGeometry)
         console.log('----------------------------------------------------------------')
-        var texture = loader.load('/images/earthmap1k.jpg')
-        console.log(texture)
         console.log('----------------------------------------------------------------')
 
         var material = new THREE.MeshPhongMaterial()
-        material.map = texture
-        material.bumpMap = loader.load('/images/earthbump1k.jpg')
-        material.specularMap = loader.load('/images/earthspec1k.jpg')
+          if (this.state.radius < 5) {
+            material.map = loader.load('/images/mercurymap.jpg')
+            material.bumpMap = loader.load('/images/mercurybump.jpg')
+            // material.specularMap = loader.load('/images/earthspec1k.jpg')
+          } else if (this.state.radius >= 5 && this.state.radius < 10) {
+            material.map = loader.load('/images/marsmap1k.jpg')
+            material.bumpMap = loader.load('/images/marsbump1k.jpg')
+            // material.specularMap = loader.load('/images/earthspec1k.jpg')
+          } else if (this.state.radius >= 10 && this.state.radius < 50) {
+            material.map = loader.load('/images/earthmap1k.jpg')
+            material.bumpMap = loader.load('/images/earthbump1k.jpg')
+            material.specularMap = loader.load('/images/earthspec1k.jpg')
+          } else if (this.state.radius >= 50 ) {
+            material.map = loader.load('/images/jupitermap.jpg')
+            // material.bumpMap = loader.load('/images/earthbump1k.jpg')
+            // material.specularMap = loader.load('/images/earthspec1k.jpg')
+          }
+        // material.map = loader.load('/images/earthmap1k.jpg')
+        // material.bumpMap = loader.load('/images/earthbump1k.jpg')
+        // material.specularMap = loader.load('/images/earthspec1k.jpg')
 
         // var material	= new THREE.MeshPhongMaterial({
       	// 	map		: THREE.TextureLoader('images/earthmap1k.jpg'),
