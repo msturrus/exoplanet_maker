@@ -159,11 +159,27 @@ var PlanetForm = React.createClass({
 
         document.getElementById('zone-container').appendChild(renderer.domElement)
 
+        var loader = new THREE.TextureLoader();
 
         var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
         console.log(planetGeometry)
         console.log('----------------------------------------------------------------')
+        var texture = loader.load('/images/earthmap1k.jpg')
+        console.log(texture)
+        console.log('----------------------------------------------------------------')
+
         var material = new THREE.MeshPhongMaterial()
+        material.map = texture
+        material.bumpMap = loader.load('/images/earthbump1k.jpg')
+        material.specularMap = loader.load('/images/earthspec1k.jpg')
+
+        // var material	= new THREE.MeshPhongMaterial({
+      	// 	map		: THREE.TextureLoader('images/earthmap1k.jpg'),
+      	// 	bumpMap		: THREE.TextureLoader('images/earthbump1k.jpg'),
+      	// 	bumpScale	: 0.05,
+      	// 	specularMap	: THREE.TextureLoader('images/earthspec1k.jpg'),
+      	// 	specular	: new THREE.Color('grey'),
+      	// })
 
         var planetMesh = new THREE.Mesh(planetGeometry, material)
         scene.add(planetMesh)
