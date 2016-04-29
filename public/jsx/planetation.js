@@ -204,8 +204,8 @@ var PlanetForm = React.createClass({
 
           // sun.position.x = Math.cos( time ) * 800;
           // sun.position.y = Math.sin( time ) * 400;
-          // sun.rotation.x += .3;
-          // sun.rotation.y -= .05;
+          // planet.rotation.x += .3;
+          // planet.rotation.y -= .01;
           renderer.render(scene, camera)
         }
 
