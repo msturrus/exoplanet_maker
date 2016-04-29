@@ -10,7 +10,7 @@ var React     = require('react'),
 
 var PlanetForm = React.createClass({
       getInitialState: function(){
-        return {planets: [], radius: 10, name: "TestPlanet"}
+        return {planets: [], radius: 10, name: "TestPlanet", rotation: .01, tilt: 0}
       },
 
       // componentDidMount: function(){
@@ -137,6 +137,50 @@ var PlanetForm = React.createClass({
         console.log(this.state)
       },
 
+      rotationUp: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var rotation = state.rotation;
+        rotation = rotation + .01;
+        state.rotation = rotation;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      rotationDown: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var rotation = state.rotation;
+        rotation = rotation - .01;
+        state.rotation = rotation;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      tiltUp: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var tilt = state.tilt;
+        tilt = tilt + .01;
+        state.tilt = tilt;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      tiltDown: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var tilt = state.tilt;
+        tilt = tilt - .01;
+        state.tilt = tilt;
+        this.setState(state);
+        console.log(this.state)
+      },
+
       // handleSubmit: function(event){
       //   event.preventDefault();
       //   var self = this;
@@ -220,12 +264,14 @@ var PlanetForm = React.createClass({
       	// 	specular	: new THREE.Color('grey'),
       	// })
 
-        var planetMesh = new THREE.Mesh(planetGeometry, material)
+        // var planetMesh = new THREE.Mesh(planetGeometry, material)
         // scene.add(planetMesh)
 
         var planet = new THREE.Mesh(planetGeometry, material)
         planet.name = self.state.name
         console.log(planet)
+        planet.rotation.z = self.state.tilt;
+
         scene.add(planet);
 
         var pointLight = new THREE.PointLight(0xFFFAFF);
@@ -237,6 +283,7 @@ var PlanetForm = React.createClass({
         scene.add(pointLight)
 
         function render(){
+
           requestAnimationFrame(render)
 
           var time = Date.now() * 0.001
@@ -244,7 +291,7 @@ var PlanetForm = React.createClass({
           // planet.position.x = Math.cos( time ) * 100;
           // sun.position.y = Math.sin( time ) * 400;
           // planet.rotation.x += .3;
-          planet.rotation.y -= .01;
+          planet.rotation.y += self.state.rotation;
           renderer.render(scene, camera)
         }
 
@@ -262,6 +309,24 @@ var PlanetForm = React.createClass({
               <button className="btn btn-primary" type="submit" value="post">+</button>
             </form>
             <form className="PlanetForm" onSubmit={this.radiusDown}>
+              <button className="btn btn-primary" type="submit" value="post">-</button>
+            </form>
+            <form className="PlanetForm" onSubmit={this.handleSubmit}>
+              <input id="search-box" type="text" placeholder="Radius" onChange={this.handleRotationChange} value={this.state.rotation}/>
+            </form>
+            <form className="PlanetForm" onSubmit={this.rotationUp}>
+              <button className="btn btn-primary" type="submit" value="post">+</button>
+            </form>
+            <form className="PlanetForm" onSubmit={this.rotationDown}>
+              <button className="btn btn-primary" type="submit" value="post">-</button>
+            </form>
+            <form className="PlanetForm" onSubmit={this.handleSubmit}>
+              <input id="search-box" type="text" placeholder="Radius" onChange={this.handleTiltChange} value={this.state.tilt}/>
+            </form>
+            <form className="PlanetForm" onSubmit={this.tiltUp}>
+              <button className="btn btn-primary" type="submit" value="post">+</button>
+            </form>
+            <form className="PlanetForm" onSubmit={this.tiltDown}>
               <button className="btn btn-primary" type="submit" value="post">-</button>
             </form>
             <div id='results-zone'>
