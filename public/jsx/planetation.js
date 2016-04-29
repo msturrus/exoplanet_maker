@@ -107,12 +107,30 @@ var PlanetForm = React.createClass({
         // scene.add(planet);
 
       },
-      handleNameChange: function(event){
+      // handleNameChange: function(event){
+      //   console.log(event.target.value)
+      //   var state = this.state;
+      //   state.name = event.target.value;
+      //   this.setState(state);
+      //   console.log(this.state)
+      // },
+
+      // handleRotationChange: function(event){
+      //   console.log(event.target.value)
+      //   var state = this.state;
+      //   state.rotation = event.target.value;
+      //   this.setState(state);
+      //   console.log(this.state)
+      //   console.log('--------------------Line 89')
+      // },
+
+      handleTiltChange: function(event){
         console.log(event.target.value)
         var state = this.state;
-        state.name = event.target.value;
+        state.tilt = event.target.value;
         this.setState(state);
         console.log(this.state)
+        console.log('--------------------Line 89')
       },
 
       radiusUp: function(event){
