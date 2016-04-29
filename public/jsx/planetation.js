@@ -221,7 +221,7 @@ var PlanetForm = React.createClass({
       	// })
 
         var planetMesh = new THREE.Mesh(planetGeometry, material)
-        scene.add(planetMesh)
+        // scene.add(planetMesh)
 
         var planet = new THREE.Mesh(planetGeometry, material)
         planet.name = self.state.name
@@ -241,10 +241,10 @@ var PlanetForm = React.createClass({
 
           var time = Date.now() * 0.001
 
-          // sun.position.x = Math.cos( time ) * 800;
+          // planet.position.x = Math.cos( time ) * 100;
           // sun.position.y = Math.sin( time ) * 400;
           // planet.rotation.x += .3;
-          // planet.rotation.y -= .01;
+          planet.rotation.y -= .01;
           renderer.render(scene, camera)
         }
 
