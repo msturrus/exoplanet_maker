@@ -115,6 +115,28 @@ var PlanetForm = React.createClass({
         console.log(this.state)
       },
 
+      radiusUp: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var radius = state.radius;
+        radius = radius + 1;
+        state.radius = radius;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      radiusDown: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var radius = state.radius;
+        radius = radius - 1;
+        state.radius = radius;
+        this.setState(state);
+        console.log(this.state)
+      },
+
       // handleSubmit: function(event){
       //   event.preventDefault();
       //   var self = this;
@@ -235,6 +257,12 @@ var PlanetForm = React.createClass({
               <input id="search-box" type="text" placeholder="Radius" onChange={this.handleRadiusChange} value={this.state.radius}/>
               <input id="search-box" type="text" placeholder="Name" onChange={this.handleNameChange} value={this.state.name}/>
               <button className="btn btn-primary" type="submit" value="post">Search</button>
+            </form>
+            <form className="PlanetForm" onSubmit={this.radiusUp}>
+              <button className="btn btn-primary" type="submit" value="post">+</button>
+            </form>
+            <form className="PlanetForm" onSubmit={this.radiusDown}>
+              <button className="btn btn-primary" type="submit" value="post">-</button>
             </form>
             <div id='results-zone'>
 
