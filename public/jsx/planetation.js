@@ -253,15 +253,15 @@ var PlanetForm = React.createClass({
         console.log('----------------------------------------------------------------')
 
         var material = new THREE.MeshPhongMaterial()
-          if (this.state.radius < 5) {
+          if (this.state.radius < 10) {
             material.map = loader.load('/images/mercurymap.jpg')
             material.bumpMap = loader.load('/images/mercurybump.jpg')
             // material.specularMap = loader.load('/images/earthspec1k.jpg')
-          } else if (this.state.radius >= 5 && this.state.radius < 10) {
+          } else if (this.state.radius >= 10 && this.state.radius < 20) {
             material.map = loader.load('/images/marsmap1k.jpg')
             material.bumpMap = loader.load('/images/marsbump1k.jpg')
             // material.specularMap = loader.load('/images/earthspec1k.jpg')
-          } else if (this.state.radius >= 10 && this.state.radius < 50) {
+          } else if (this.state.radius >= 20 && this.state.radius < 50) {
             material.map = loader.load('/images/earthmap1k.jpg')
             material.bumpMap = loader.load('/images/earthbump1k.jpg')
             material.specularMap = loader.load('/images/earthspec1k.jpg')
