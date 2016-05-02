@@ -30,6 +30,7 @@
     "react-dnd-html5-backend": "^2.1.2",
     "react-dom": "^15.0.1",
     "react-three": "^0.9.1",
+    "react-three-renderer": "^2.0.1",
     "serve-favicon": "~2.3.0",
     "three": "^0.76.1"
   },
