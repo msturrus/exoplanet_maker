@@ -10,7 +10,7 @@ var React     = require('react'),
 
 var PlanetForm = React.createClass({
       getInitialState: function(){
-        return {planets: [], radius: 10, name: "TestPlanet", rotation: .01, tilt: 0}
+        return {planet: {}, radius: 10, name: "TestPlanet", rotation: .01, tilt: 0}
       },
 
       // componentDidMount: function(){
@@ -232,27 +232,40 @@ var PlanetForm = React.createClass({
       // },
       render: function(){
         document.getElementById('planet-preview').innerHTML = ''
+        document.getElementById('zone-container').innerHTML = ''
+
         var self = this
-        var scene = new THREE.Scene();
-        scene.name = "planetScene"
-        console.log('----------------------------------------------------------------')
-        console.log(scene)
-        console.log('----------------------------------------------------------------')
+
+        var planetScene = new THREE.Scene();
+        planetScene.name = "planetScene"
+
+        var starScene = new THREE.Scene();
+        starScene.name = "starScene"
+
+        var planetCamera = new THREE.PerspectiveCamera(75, 250 / 250, 0.1, 10000);
+        planetCamera.name = "planetCamera"
+
+        var starCamera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 10000);
+        starCamera.name = "starCamera"
+
+        var planetRenderer = new THREE.WebGLRenderer();
+        planetRenderer.setSize( 250, 250 );
+
+        var starRenderer = new THREE.WebGLRenderer();
+        starRenderer.setSize( 600, 600 );
+
+        planetScene.add(planetCamera)
+        starScene.add(starCamera)
+
+        planetCamera.position.z = 100
+        starCamera.position.z = 100
 
 
-        console.log(document.getElementById('planet-preview').innerWidth)
 
-        var camera = new THREE.PerspectiveCamera(75, 250 / 250, 0.1, 10000);
 
-        camera.name = "camera"
+        document.getElementById('planet-preview').appendChild(planetRenderer.domElement)
+        document.getElementById('zone-container').appendChild(starRenderer.domElement)
 
-        var renderer = new THREE.WebGLRenderer();
-        renderer.setSize( 250, 250 );
-
-        scene.add(camera)
-        camera.position.z = 100
-
-        document.getElementById('planet-preview').appendChild(renderer.domElement)
 
         var loader = new THREE.TextureLoader();
 
@@ -296,7 +309,9 @@ var PlanetForm = React.createClass({
         console.log(planet)
         planet.rotation.z = self.state.tilt;
 
-        scene.add(planet);
+        planetScene.add(planet);
+        starScene.add(planet)
+        
 
         var pointLight = new THREE.PointLight(0xFFFAFF);
 
@@ -304,11 +319,13 @@ var PlanetForm = React.createClass({
         pointLight.position.y = 10;
         pointLight.position.z = 190;
 
-        scene.add(pointLight)
+        planetScene.add(pointLight)
+        starScene.add(pointLight)
 
-        function render(){
 
-          requestAnimationFrame(render)
+        function renderStar(){
+
+          requestAnimationFrame(renderStar)
 
           var time = Date.now() * 0.001
 
@@ -316,10 +333,26 @@ var PlanetForm = React.createClass({
           // sun.position.y = Math.sin( time ) * 400;
           // planet.rotation.x += .3;
           planet.rotation.y += self.state.rotation;
-          renderer.render(scene, camera)
+          starRenderer.render(starScene, starCamera)
+
         }
 
-        render()
+        function renderPlanet(){
+
+          requestAnimationFrame(renderPlanet)
+
+          var time = Date.now() * 0.001
+
+          // planet.position.x = Math.cos( time ) * 100;
+          // sun.position.y = Math.sin( time ) * 400;
+          // planet.rotation.x += .3;
+          planet.rotation.y += self.state.rotation;
+          planetRenderer.render(planetScene, planetCamera)
+
+        }
+
+        renderPlanet();
+        renderStar();
 
         return(
 
