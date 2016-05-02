@@ -6800,7 +6800,6 @@ p {
 .bottompad {
   height: 510px;
   padding-top: 5px;
-  position: fixed;
   width: 330px;
 }
 .bottompad .searchtext {

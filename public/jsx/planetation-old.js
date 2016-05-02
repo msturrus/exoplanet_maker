@@ -1,7 +1,5 @@
 var React     = require('react'),
     ReactDOM  = require('react-dom'),
-    ReactTHREE = require('react-three'),
-    THREE = require('three'),
     _         = require('lodash');
 
 
@@ -201,58 +199,64 @@ var PlanetForm = React.createClass({
         console.log(this.state)
       },
 
-      // handleSubmit: function(event){
-      //   event.preventDefault();
-      //   var self = this;
-      //   console.log(this);
-      //   var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
-      //
-      //   var material = new THREE.MeshPhongMaterial()
-      //
-      //   var planetMesh = new THREE.Mesh(planetGeometry, material)
-      //   scene.add(planetMesh)
-      //
-      //   var planet = new THREE.Mesh(planetGeometry, material)
-      //   console.log(planet)
-      //   scene.add(planet);
-      //   var planetInfo = {
-      //     name: self.state.name,
-      //     radius: self.state.radius
-      //   }
-      //   self.state.planets.push(planetInfo);
-      //   console.log(self.state.planets)
-      //
-      //
-      // },
+      handleAddPlanet: function(event){
+        event.preventDefault();
+        var self = this;
+        console.log(this);
+        var planetScene = document.getObjectByName( "planetScene" );
+        var addPlanet = planetScene.getObjectByName( self.state.name );
+        console.log(planetScene)
+        console.log(addPlanet)
+
+        var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
+
+        var material = new THREE.MeshPhongMaterial()
+
+        var planetMesh = new THREE.Mesh(planetGeometry, material)
+        scene.add(planetMesh)
+
+        var planet = new THREE.Mesh(planetGeometry, material)
+        console.log(planet)
+        scene.add(planet);
+        var planetInfo = {
+          name: self.state.name,
+          radius: self.state.radius
+        }
+        self.state.planets.push(planetInfo);
+        console.log(self.state.planets)
+
+
+      },
       // changeRadius: function(){
       //
       // },
       render: function(){
-        document.getElementById('zone-container').innerHTML = ''
+        document.getElementById('planet-preview').innerHTML = ''
         var self = this
         var scene = new THREE.Scene();
         scene.name = "planetScene"
+        console.log('----------------------------------------------------------------')
+        console.log(scene)
+        console.log('----------------------------------------------------------------')
 
-        console.log(document.getElementById('zone-container').innerWidth)
 
-        var camera = new THREE.PerspectiveCamera(75, 800 / 600, 0.1, 10000);
+        console.log(document.getElementById('planet-preview').innerWidth)
+
+        var camera = new THREE.PerspectiveCamera(75, 250 / 250, 0.1, 10000);
 
         camera.name = "camera"
 
         var renderer = new THREE.WebGLRenderer();
-        renderer.setSize( 800, 600 );
+        renderer.setSize( 250, 250 );
 
         scene.add(camera)
         camera.position.z = 100
 
-        document.getElementById('zone-container').appendChild(renderer.domElement)
+        document.getElementById('planet-preview').appendChild(renderer.domElement)
 
         var loader = new THREE.TextureLoader();
 
         var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
-        console.log(planetGeometry)
-        console.log('----------------------------------------------------------------')
-        console.log('----------------------------------------------------------------')
 
         var material = new THREE.MeshPhongMaterial()
           if (this.state.radius < 10) {
@@ -320,10 +324,10 @@ var PlanetForm = React.createClass({
         return(
 
           <div id="results-container">
-            <form className="PlanetForm" onSubmit={this.handleSubmit}>
+            <form className="PlanetForm" onSubmit={this.handleAddPlanet}>
               <input id="search-box" type="text" placeholder="Radius" onChange={this.handleRadiusChange} value={this.state.radius}/>
               <input id="search-box" type="text" placeholder="Name" onChange={this.handleNameChange} value={this.state.name}/>
-              <button className="btn btn-primary" type="submit" value="post">Search</button>
+              <button className="btn btn-primary" type="submit" value="post">Add</button>
             </form>
             <form className="PlanetForm" onSubmit={this.radiusUp}>
               <button className="btn btn-primary" type="submit" value="post">+</button>
@@ -386,7 +390,7 @@ var PlanetForm = React.createClass({
     //   }
     // })
 
-    ReactDOM.render(<PlanetForm/>, document.getElementById('dummy'))
+    ReactDOM.render(<PlanetForm/>, document.getElementById('example'))
 
     // material.map  = THREE.TextureLoader('mars_1k_color.jpg')
 
