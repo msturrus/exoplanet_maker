@@ -10,7 +10,7 @@ var React     = require('react'),
 
 var PlanetForm = React.createClass({
       getInitialState: function(){
-        return {planets: [], radius: 10, name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 1, starRed: 200, starGreen: 200, starBlue: 60}
+        return {planets: [], radius: 10, name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 2, starRed: 200, starGreen: 200, starBlue: 100}
       },
 
       // componentDidMount: function(){
@@ -402,7 +402,7 @@ var PlanetForm = React.createClass({
         starScene.add(fieldMesh)
         // starScene.add(spotLight)
 
-        // starScene.add(hemiLight)
+        starScene.add(hemiLight)
 
 
 
@@ -469,54 +469,74 @@ var PlanetForm = React.createClass({
         return(
 
           <div id="results-container">
-            <form className="PlanetForm" onSubmit={this.handleAddPlanet}>
+            <div className="controlDiv">
+              <form className="PlanetForm" onSubmit={this.handleAddPlanet}>
+                <input id="search-box" type="text" placeholder="Name" onChange={this.handleNameChange} value={this.state.name}/>
+                <button className="btn btn-primary" type="submit" value="post">Add</button>
+              </form>
+            </div>
+            <div className="controlDiv">
+              <label>Radius Controls</label>
               <input id="search-box" type="text" placeholder="Radius" onChange={this.handleRadiusChange} value={this.state.radius}/>
-              <input id="search-box" type="text" placeholder="Name" onChange={this.handleNameChange} value={this.state.name}/>
-              <button className="btn btn-primary" type="submit" value="post">Add</button>
-            </form>
-            <form className="PlanetForm" onSubmit={this.radiusUp}>
-              <button className="btn btn-primary" type="submit" value="post">+</button>
-            </form>
-            <form className="PlanetForm" onSubmit={this.radiusDown}>
-              <button className="btn btn-primary" type="submit" value="post">-</button>
-            </form>
-            <form className="PlanetForm" onSubmit={this.handleSubmit}>
-              <input id="search-box" type="text" placeholder="Radius" onChange={this.handleRotationChange} value={this.state.rotation}/>
-            </form>
-            <form className="PlanetForm" onSubmit={this.rotationUp}>
-              <button className="btn btn-primary" type="submit" value="post">+</button>
-            </form>
-            <form className="PlanetForm" onSubmit={this.rotationDown}>
-              <button className="btn btn-primary" type="submit" value="post">-</button>
-            </form>
-            <form className="PlanetForm" onSubmit={this.handleSubmit}>
-              <input id="search-box" type="text" placeholder="Radius" onChange={this.handleTiltChange} value={this.state.tilt}/>
-            </form>
-            <form className="PlanetForm" onSubmit={this.tiltUp}>
-              <button className="btn btn-primary" type="submit" value="post">+</button>
-            </form>
-            <form className="PlanetForm" onSubmit={this.tiltDown}>
-              <button className="btn btn-primary" type="submit" value="post">-</button>
-            </form>
+              <form className="PlanetForm" onSubmit={this.radiusUp}>
+                <button className="btn btn-primary" type="submit" value="post">+</button>
+              </form>
+              <form className="PlanetForm" onSubmit={this.radiusDown}>
+                <button className="btn btn-primary" type="submit" value="post">-</button>
+              </form>
+            </div>
+            <div className="controlDiv">
+              <form className="PlanetForm" onSubmit={this.handleSubmit}>
+                <label>Rotation Speed</label>
+                <input id="search-box" type="text" placeholder="Rotation" onChange={this.handleRotationChange} value={this.state.rotation}/>
+              </form>
+              <form className="PlanetForm" onSubmit={this.rotationUp}>
+                <button className="btn btn-primary" type="submit" value="post">+</button>
+              </form>
+              <form className="PlanetForm" onSubmit={this.rotationDown}>
+                <button className="btn btn-primary" type="submit" value="post">-</button>
+              </form>
+            </div>
+            <div className="controlDiv">
+              <form className="PlanetForm" onSubmit={this.handleSubmit}>
+                <label>Axial Tilt</label>
+                <input id="search-box" type="text" placeholder="Tilt" onChange={this.handleTiltChange} value={this.state.tilt}/>
+              </form>
+              <form className="PlanetForm" onSubmit={this.tiltUp}>
+                <button className="btn btn-primary" type="submit" value="post">+</button>
+              </form>
+              <form className="PlanetForm" onSubmit={this.tiltDown}>
+                <button className="btn btn-primary" type="submit" value="post">-</button>
+              </form>
+            </div>
 
             <div id='star-zone'>
-              <form className="PlanetForm" onSubmit={this.starRadiusUp}>
-                <button className="btn btn-primary" type="submit" value="post">+</button>
-              </form>
-              <form className="PlanetForm" onSubmit={this.starRadiusDown}>
-                <button className="btn btn-primary" type="submit" value="post">-</button>
-              </form>
-              <form className="PlanetForm" onSubmit={this.starBrightnessUp}>
-                <button className="btn btn-primary" type="submit" value="post">+</button>
-              </form>
-              <form className="PlanetForm" onSubmit={this.starBrightnessDown}>
-                <button className="btn btn-primary" type="submit" value="post">-</button>
-              </form>
-              <form className="PlanetForm" onSubmit={this.handleColorSubmit}>
-                <input id="red-box" type="text" placeholder="Red" onChange={this.handleStarRedChange} value={this.state.starRed}/>
-                <input id="red-box" type="text" placeholder="Green" onChange={this.handleStarGreenChange} value={this.state.starGreen}/>
-                <input id="red-box" type="text" placeholder="Blue" onChange={this.handleStarBlueChange} value={this.state.starBlue}/>
-              </form>
+              <div className="controlDiv">
+                <label>Star Radius</label>
+                <form className="PlanetForm" onSubmit={this.starRadiusUp}>
+                  <button className="btn btn-primary" type="submit" value="post">+</button>
+                </form>
+                <form className="PlanetForm" onSubmit={this.starRadiusDown}>
+                  <button className="btn btn-primary" type="submit" value="post">-</button>
+                </form>
+              </div>
+              <div className="controlDiv">
+                <label>Star Brightness</label>
+                <form className="PlanetForm" onSubmit={this.starBrightnessUp}>
+                  <button className="btn btn-primary" type="submit" value="post">+</button>
+                </form>
+                <form className="PlanetForm" onSubmit={this.starBrightnessDown}>
+                  <button className="btn btn-primary" type="submit" value="post">-</button>
+                </form>
+              </div>
+              <div className="controlDiv">
+                <label>Star Color (RGB)</label>
+                <form className="PlanetForm" onSubmit={this.handleColorSubmit}>
+                  <input id="red-box" type="text" placeholder="Red" onChange={this.handleStarRedChange} value={this.state.starRed}/>
+                  <input id="red-box" type="text" placeholder="Green" onChange={this.handleStarGreenChange} value={this.state.starGreen}/>
+                  <input id="red-box" type="text" placeholder="Blue" onChange={this.handleStarBlueChange} value={this.state.starBlue}/>
+                </form>
+              </div>
 
 
 
