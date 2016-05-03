@@ -10,7 +10,7 @@ var React     = require('react'),
 
 var PlanetForm = React.createClass({
       getInitialState: function(){
-        return {planets: [], radius: 20, name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 2, starRed: 200, starGreen: 200, starBlue: 100}
+        return {planets: [], radius: 20, name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 2, starRed: 200, starGreen: 200, starBlue: 100, orbitMultiplier: 400, orbitPeriod: .001}
       },
 
       handleRadiusChange: function(event){
@@ -158,6 +158,50 @@ var PlanetForm = React.createClass({
         var brightness = state.starBrightness;
         brightness = brightness - .5;
         state.starBrightness = brightness;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      orbitMultiplierUp: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var orbit = state.orbitMultiplier;
+        orbit = orbit + 100;
+        state.orbitMultiplier = orbit;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      orbitMultiplierDown: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var orbit = state.orbitMultiplier;
+        orbit = orbit - 100;
+        state.orbitMultiplier = orbit;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      orbitPeriodUp: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var period = state.orbitPeriod;
+        period = period + .001;
+        state.orbitPeriod = period;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      orbitPeriodDown: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var period = state.orbitPeriod;
+        period = period - .001;
+        state.orbitPeriod = period;
         this.setState(state);
         console.log(this.state)
       },
@@ -396,12 +440,12 @@ var PlanetForm = React.createClass({
           starControls.update();
 
 
-          var time = performance.now() * 0.001
+          var time = performance.now() * self.state.orbitPeriod
 
 
           planet2.rotation.y += self.state.rotation;
-          planet2.position.x = Math.cos( time ) * 500;
-          planet2.position.z = Math.sin( time ) * 500;
+          planet2.position.x = Math.cos( time ) * self.state.orbitMultiplier;
+          planet2.position.z = Math.sin( time ) * self.state.orbitMultiplier;
 
           // var clock = performance.now()
 
@@ -428,6 +472,7 @@ var PlanetForm = React.createClass({
         function renderPlanet(){
 
           requestAnimationFrame(renderPlanet)
+
 
           var time = performance.now() * 0.001
 
@@ -470,18 +515,6 @@ var PlanetForm = React.createClass({
                   <button className="btn btn-primary" type="submit" value="post">-</button>
                 </form>
               </div>
-              <div className="controlDiv">
-                <form className="PlanetForm" onSubmit={this.handleSubmit}>
-                  <label>Axial Tilt</label>
-                  <input id="search-box" type="text" placeholder="Tilt" onChange={this.handleTiltChange} value={this.state.tilt}/>
-                </form>
-                <form className="PlanetForm" onSubmit={this.tiltUp}>
-                  <button className="btn btn-primary" type="submit" value="post">+</button>
-                </form>
-                <form className="PlanetForm" onSubmit={this.tiltDown}>
-                  <button className="btn btn-primary" type="submit" value="post">-</button>
-                </form>
-              </div>
             </div>
 
             <div id='star-zone'>
@@ -511,9 +544,26 @@ var PlanetForm = React.createClass({
                   <input id="red-box" type="text" placeholder="Blue" onChange={this.handleStarBlueChange} value={this.state.starBlue}/>
                 </form>
               </div>
-
-
-
+            </div>
+            <div id='orbital-zone'>
+              <div className="controlDiv">
+                <label>Orbital Distance</label>
+                <form className="PlanetForm" onSubmit={this.orbitMultiplierUp}>
+                  <button className="btn btn-primary" type="submit" value="post">+</button>
+                </form>
+                <form className="PlanetForm" onSubmit={this.orbitMultiplierDown}>
+                  <button className="btn btn-primary" type="submit" value="post">-</button>
+                </form>
+              </div>
+              <div className="controlDiv">
+                <label>Orbital Period</label>
+                <form className="PlanetForm" onSubmit={this.orbitPeriodUp}>
+                  <button className="btn btn-primary" type="submit" value="post">+</button>
+                </form>
+                <form className="PlanetForm" onSubmit={this.orbitPeriodDown}>
+                  <button className="btn btn-primary" type="submit" value="post">-</button>
+                </form>
+              </div>
             </div>
           </div>
 
@@ -531,6 +581,19 @@ var PlanetForm = React.createClass({
     //   <form className="PlanetForm" onSubmit={this.handleAddPlanet}>
     //     <input id="search-box" type="text" placeholder="Name" onChange={this.handleNameChange} value={this.state.name}/>
     //     <button className="btn btn-primary" type="submit" value="post">Add</button>
+    //   </form>
+    // </div>
+
+    // <div className="controlDiv">
+    //   <form className="PlanetForm" onSubmit={this.handleSubmit}>
+    //     <label>Axial Tilt</label>
+    //     <input id="search-box" type="text" placeholder="Tilt" onChange={this.handleTiltChange} value={this.state.tilt}/>
+    //   </form>
+    //   <form className="PlanetForm" onSubmit={this.tiltUp}>
+    //     <button className="btn btn-primary" type="submit" value="post">+</button>
+    //   </form>
+    //   <form className="PlanetForm" onSubmit={this.tiltDown}>
+    //     <button className="btn btn-primary" type="submit" value="post">-</button>
     //   </form>
     // </div>
 
