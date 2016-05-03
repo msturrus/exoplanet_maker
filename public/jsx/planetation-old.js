@@ -10,7 +10,7 @@ var React     = require('react'),
 
 var PlanetForm = React.createClass({
       getInitialState: function(){
-        return {planets: [], radius: 10, name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 2, starRed: 200, starGreen: 200, starBlue: 100}
+        return {planets: [], radius: 20, name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 2, starRed: 200, starGreen: 200, starBlue: 100}
       },
 
       handleRadiusChange: function(event){
@@ -223,30 +223,33 @@ var PlanetForm = React.createClass({
 
     // Trackball Controls!  Hopefully these work.  UPDATE!  They do not.
 
-        // var starControls = new THREE.TrackballControls( starCamera );
-        //
-        // starControls.rotateSpeed = 1.0;
-        // starControls.zoomSpeed = 1.2;
-        // starControls.panSpeed = 0.8;
-        //
-        // starControls.noZoom = false;
-        // starControls.noPan = false;
-        //
-        // starControls.staticMoving = true;
-        // starControls.dynamicDampingFactor = 0.3;
-        //
-        // starControls.keys = [ 65, 83, 68 ];
-        //
-        // starControls.addEventListener( 'change', renderStar );
+        var starControls = new THREE.TrackballControls( starCamera );
+
+        // var stats = new Stats();
+        // container.appendChild( stats.dom );
+
+        starControls.rotateSpeed = 1.0;
+        starControls.zoomSpeed = 1.2;
+        starControls.panSpeed = 0.8;
+
+        starControls.noZoom = false;
+        starControls.noPan = false;
+
+        starControls.staticMoving = true;
+        starControls.dynamicDampingFactor = 0.3;
+
+        starControls.keys = [ 65, 83, 68 ];
+
+        starControls.addEventListener( 'change', renderStar );
 
 
     // Orbit controls!  They work great. If they are commented out it means I got trackball controls to work
 
-        var starControls = new THREE.OrbitControls( starCamera, starRenderer.domElement );
-				//controls.addEventListener( 'change', render ); // add this only if there is no animation loop (requestAnimationFrame)
-				starControls.enableDamping = true;
-				starControls.dampingFactor = 0.25;
-				starControls.enableZoom = false;
+        // var starControls = new THREE.OrbitControls( starCamera, starRenderer.domElement );
+				// //controls.addEventListener( 'change', render ); // add this only if there is no animation loop (requestAnimationFrame)
+				// starControls.enableDamping = true;
+				// starControls.dampingFactor = 0.25;
+				// starControls.enableZoom = false;
 
         var planetControls = new THREE.OrbitControls( planetCamera, planetRenderer.domElement );
 				//controls.addEventListener( 'change', render ); // add this only if there is no animation loop (requestAnimationFrame)
@@ -308,6 +311,11 @@ var PlanetForm = React.createClass({
         fieldMaterial.map   = loader.load('/images/galaxy_starfield.png')
         fieldMaterial.side  = THREE.BackSide
         var fieldMesh  = new THREE.Mesh(fieldGeometry, fieldMaterial)
+        var fieldMesh2  = new THREE.Mesh(fieldGeometry, fieldMaterial)
+        console.log('fieldmesh2 begin-----------------------------------------')
+        console.log(fieldMesh2)
+        console.log('fieldmesh2 end-----------------------------------------')
+
 
         var hemiLight = new THREE.HemisphereLight(0x000000, 0x000000, 0.6);
 
@@ -321,7 +329,7 @@ var PlanetForm = React.createClass({
         planet.rotation.z = self.state.tilt;
 
         planetScene.add(planet);
-        planetScene.add(fieldMesh)
+        planetScene.add(fieldMesh2)
         starScene.add(planet2)
         starScene.add(star)
         starScene.add(fieldMesh)
@@ -355,22 +363,48 @@ var PlanetForm = React.createClass({
         starScene.add(pointLight2)
 
 
+
+        // function onWindowResize() {
+        //
+  			// 	starCamera.aspect = container.innerWidth / container.innerHeight;
+  			// 	starCamera.updateProjectionMatrix();
+        //
+  			// 	starRenderer.setSize( container.innerWidth, container.innerHeight );
+        //
+  			// 	starControls.handleResize();
+        //
+  			// 	renderStar();
+        //
+			  // }
+
+        function animate() {
+              var time = performance.now() * 0.001
+              starControls.update();
+              planet2.rotation.y += self.state.rotation;
+              planet2.position.x = Math.cos( time ) * 500;
+              planet2.position.z = Math.sin( time ) * 500;
+              requestAnimationFrame( animate );
+
+
+
+			  }
+
+
         function renderStar(){
 
-          requestAnimationFrame(renderStar)
+          requestAnimationFrame(animate)
+          // requestAnimationFrame(renderStar)
 
-          var time = performance.now() * 0.001
           // var clock = performance.now()
 
           // var delta = clock.getDelta();
 
-          planet2.position.x = Math.cos( time ) * 500;
-          planet2.position.z = Math.sin( time ) * 500;
+
 
           // star.position.y = Math.cos( time ) * 500;
           // planet2.position.z = Math.sin( time ) * 500;
 
-          starControls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
+          // starControls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
 
       // Fly controls - they do not work likely will not work in the forseeable future
           // Fly controls ----------------
@@ -379,7 +413,6 @@ var PlanetForm = React.createClass({
 				  // controls.update( delta );
 
 
-          planet2.rotation.y += self.state.rotation;
           starRenderer.render(starScene, starCamera)
 
         }
