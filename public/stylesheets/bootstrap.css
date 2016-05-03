@@ -6849,7 +6849,7 @@ textarea {
 .green {
   text-decoration: underline;
 }
-.example {
+#planet-zone {
   display: flex;
 }
 #star-zone {
@@ -6861,4 +6861,21 @@ textarea {
   margin-top: 5px;
   margin-bottom: 5px;
   border-radius: 10px;
+}
+#control-btn {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+}
+.control_box {
+  position: fixed;
+  border: 1px solid black;
+  width: 100%;
+  padding: 10px 0;
+  /*margin-top: 120px;*/
+  margin-left: auto;
+  margin-right: auto;
+  background: rgba(0, 0, 0, 0.8);
+  bottom: 0px;
+  max-height: 150px;
 }
