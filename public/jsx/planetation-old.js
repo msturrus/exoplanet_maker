@@ -258,7 +258,7 @@ var PlanetForm = React.createClass({
         starScene.add(starCamera)
 
         planetCamera.position.z = 100
-        starCamera.position.z = 100
+        starCamera.position.z = 800
 
 
 
@@ -304,14 +304,29 @@ var PlanetForm = React.createClass({
         // var planetMesh = new THREE.Mesh(planetGeometry, material)
         // scene.add(planetMesh)
 
+        var starGeometry = new THREE.SphereGeometry(60, 32, 32)
+        var starMaterial = new THREE.MeshStandardMaterial()
+        starMaterial.opacity = .5
+        starMaterial.shininiess = 99
+        // starMaterial.castShadow = true
+
+
+        var star = new THREE.Mesh(starGeometry, starMaterial)
+        star.castShadow = true
+        console.log(star)
+
+
         var planet = new THREE.Mesh(planetGeometry, material)
+        var planet2 = new THREE.Mesh(planetGeometry, material)
         planet.name = self.state.name
         console.log(planet)
         planet.rotation.z = self.state.tilt;
 
         planetScene.add(planet);
-        starScene.add(planet)
-        
+        starScene.add(planet2)
+        starScene.add(star)
+
+
 
         var pointLight = new THREE.PointLight(0xFFFAFF);
 
@@ -319,8 +334,14 @@ var PlanetForm = React.createClass({
         pointLight.position.y = 10;
         pointLight.position.z = 190;
 
+        var pointLight2 = new THREE.PointLight(0xFFFAFF);
+
+        pointLight2.position.x = 0;
+        pointLight2.position.y = 0;
+        pointLight2.position.z = 0;
+
         planetScene.add(pointLight)
-        starScene.add(pointLight)
+        starScene.add(pointLight2)
 
 
         function renderStar(){
@@ -329,10 +350,10 @@ var PlanetForm = React.createClass({
 
           var time = Date.now() * 0.001
 
-          // planet.position.x = Math.cos( time ) * 100;
-          // sun.position.y = Math.sin( time ) * 400;
+          planet2.position.x = Math.cos( time ) * 500;
+          planet2.position.z = Math.sin( time ) * 500;
           // planet.rotation.x += .3;
-          planet.rotation.y += self.state.rotation;
+          planet2.rotation.y += self.state.rotation;
           starRenderer.render(starScene, starCamera)
 
         }
