@@ -322,13 +322,16 @@ var PlanetForm = React.createClass({
         // starMaterial.emissive = 16750593
         // starMaterial.castShadow = true
         // starMaterial.receiveShadow = true
+        // var sunOptions = {};
+        // sunOptions.radius = 70
+        // sunOptions.spectral = .5
+        // makeSun(sunOptions);
 
 
 
-
-        var star = new THREE.Mesh(starGeometry, starMaterial)
-        star.castShadow = true
-        star.receiveShadow = true
+        var star = THREEx.Planets.createSun()
+        // star.castShadow = true
+        // star.receiveShadow = true
 
         console.log(star)
 

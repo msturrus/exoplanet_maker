@@ -7,29 +7,29 @@ var sunCoronaTexture;
 
 function loadStarSurfaceTextures(){
 	if( sunTexture === undefined ){
-		sunTexture = THREE.ImageUtils.loadTexture( "images/sun_surface.png", undefined, setLoadMessage("Igniting solar plasma") );
+		sunTexture = THREE.ImageUtils.loadTexture( "/images/sun_surface.png");
 		sunTexture.anisotropy = maxAniso;
 		sunTexture.wrapS = sunTexture.wrapT = THREE.RepeatWrapping;
 	}
 
 	if( sunColorLookupTexture === undefined ){
-		sunColorLookupTexture = THREE.ImageUtils.loadTexture( "images/star_colorshift.png" );
+		sunColorLookupTexture = THREE.ImageUtils.loadTexture( "/images/star_colorshift.png" );
 	}
 
 	if( solarflareTexture === undefined ){
-		solarflareTexture = THREE.ImageUtils.loadTexture( "images/solarflare.png", undefined, setLoadMessage("Distributing solar flares")	 );
+		solarflareTexture = THREE.ImageUtils.loadTexture( "/images/solarflare.png" );
 	}
 
 	if( sunHaloTexture === undefined ){
-		sunHaloTexture = THREE.ImageUtils.loadTexture( "images/sun_halo.png", undefined, setLoadMessage("Calculating coronal mass") );
+		sunHaloTexture = THREE.ImageUtils.loadTexture( "/images/sun_halo.png" );
 	}
 
 	if( sunHaloColorTexture === undefined ){
-		sunHaloColorTexture = THREE.ImageUtils.loadTexture( "images/halo_colorshift.png" );
+		sunHaloColorTexture = THREE.ImageUtils.loadTexture( "/images/halo_colorshift.png" );
 	}
 
 	if( sunCoronaTexture === undefined ){
-		sunCoronaTexture = THREE.ImageUtils.loadTexture( "images/corona.png", undefined, setLoadMessage("Projecting coronal ejecta") );
+		sunCoronaTexture = THREE.ImageUtils.loadTexture( "/images/corona.png" );
 	}
 }
 
