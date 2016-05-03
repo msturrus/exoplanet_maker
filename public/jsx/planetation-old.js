@@ -312,11 +312,17 @@ var PlanetForm = React.createClass({
         planetCamera.position.z = 100
         starCamera.position.z = 1000
 
-        var controls = new THREE.OrbitControls( starCamera, starRenderer.domElement );
+        var starControls = new THREE.OrbitControls( starCamera, starRenderer.domElement );
 				//controls.addEventListener( 'change', render ); // add this only if there is no animation loop (requestAnimationFrame)
-				controls.enableDamping = true;
-				controls.dampingFactor = 0.25;
-				controls.enableZoom = false;
+				starControls.enableDamping = true;
+				starControls.dampingFactor = 0.25;
+				starControls.enableZoom = false;
+
+        var planetControls = new THREE.OrbitControls( planetCamera, planetRenderer.domElement );
+				//controls.addEventListener( 'change', render ); // add this only if there is no animation loop (requestAnimationFrame)
+				planetControls.enableDamping = true;
+				planetControls.dampingFactor = 0.25;
+				planetControls.enableZoom = false;
 
         // var controls = new THREE.FlyControls( starCamera );
 				// controls.movementSpeed = 1000;
@@ -458,7 +464,7 @@ var PlanetForm = React.createClass({
           // star.position.y = Math.cos( time ) * 500;
           // planet2.position.z = Math.sin( time ) * 500;
 
-          controls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
+          starControls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
 
           // Fly controls ----------------
           // planet.rotation.x += .3;
@@ -481,6 +487,7 @@ var PlanetForm = React.createClass({
           // sun.position.y = Math.sin( time ) * 400;
           // planet.rotation.x += .3;
           planet.rotation.y += self.state.rotation;
+          planetControls.update()
           planetRenderer.render(planetScene, planetCamera)
 
 
