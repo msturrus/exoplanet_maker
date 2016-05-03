@@ -247,6 +247,8 @@ var PlanetForm = React.createClass({
 
         var starCamera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 10000);
         starCamera.name = "starCamera"
+        starCamera.lookAt(starScene.position)
+        console.log(starCamera)
 
         var planetRenderer = new THREE.WebGLRenderer();
         planetRenderer.setSize( 250, 250 );
@@ -258,7 +260,7 @@ var PlanetForm = React.createClass({
         starScene.add(starCamera)
 
         planetCamera.position.z = 100
-        starCamera.position.z = 800
+        starCamera.position.z = 1000
 
 
 
@@ -303,28 +305,44 @@ var PlanetForm = React.createClass({
 
         // var planetMesh = new THREE.Mesh(planetGeometry, material)
         // scene.add(planetMesh)
-
+        var color = new THREE.Color("rgb(200, 200, 60)");
         var starGeometry = new THREE.SphereGeometry(60, 32, 32)
-        var starMaterial = new THREE.MeshStandardMaterial()
-        starMaterial.opacity = .5
-        starMaterial.shininiess = 99
+        var starMaterial = new THREE.MeshPhongMaterial()
+        starMaterial.map = loader.load('/images/sunmap.jpg')
+        // starMaterial.color = color
+        starMaterial.emissive = color
+
+        var fieldGeometry  = new THREE.SphereGeometry(2000, 32, 32)
+        var fieldMaterial  = new THREE.MeshBasicMaterial()
+        fieldMaterial.map   = loader.load('/images/galaxy_starfield.png')
+        fieldMaterial.side  = THREE.BackSide
+        var fieldMesh  = new THREE.Mesh(fieldGeometry, fieldMaterial)
+
+        // starMaterial.color = 16775936
+        // starMaterial.emissive = 16750593
         // starMaterial.castShadow = true
+        // starMaterial.receiveShadow = true
+
+
 
 
         var star = new THREE.Mesh(starGeometry, starMaterial)
         star.castShadow = true
+        star.receiveShadow = true
+
         console.log(star)
 
 
         var planet = new THREE.Mesh(planetGeometry, material)
         var planet2 = new THREE.Mesh(planetGeometry, material)
         planet.name = self.state.name
-        console.log(planet)
         planet.rotation.z = self.state.tilt;
 
         planetScene.add(planet);
+        planetScene.add(fieldMesh)
         starScene.add(planet2)
         starScene.add(star)
+        starScene.add(fieldMesh)
 
 
 
@@ -352,6 +370,11 @@ var PlanetForm = React.createClass({
 
           planet2.position.x = Math.cos( time ) * 500;
           planet2.position.z = Math.sin( time ) * 500;
+
+          // star.position.y = Math.cos( time ) * 500;
+          // planet2.position.z = Math.sin( time ) * 500;
+
+
           // planet.rotation.x += .3;
           planet2.rotation.y += self.state.rotation;
           starRenderer.render(starScene, starCamera)
