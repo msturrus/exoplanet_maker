@@ -240,7 +240,7 @@ var PlanetForm = React.createClass({
 
         starControls.keys = [ 65, 83, 68 ];
 
-        starControls.addEventListener( 'change', renderStar );
+        starControls.addEventListener( 'change', animate );
 
 
     // Orbit controls!  They work great. If they are commented out it means I got trackball controls to work
@@ -378,19 +378,21 @@ var PlanetForm = React.createClass({
 			  // }
 
         function animate() {
-              starControls.update();
 
               requestAnimationFrame( animate );
 
 
 
 			  }
+        animate()
 
 
         function renderStar(){
 
-          requestAnimationFrame(animate)
+          // requestAnimationFrame(animate)
           requestAnimationFrame(renderStar)
+          starControls.update();
+
 
           var time = performance.now() * 0.001
 
