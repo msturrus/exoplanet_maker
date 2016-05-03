@@ -10,7 +10,7 @@ var React     = require('react'),
 
 var PlanetForm = React.createClass({
       getInitialState: function(){
-        return {planet: {}, radius: 10, name: "TestPlanet", rotation: .01, tilt: 0}
+        return {planets: [], radius: 10, name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 1, starRed: 200, starGreen: 200, starBlue: 60}
       },
 
       // componentDidMount: function(){
@@ -82,12 +82,9 @@ var PlanetForm = React.createClass({
       // },
 
       handleRadiusChange: function(event){
-        console.log(event.target.value)
         var state = this.state;
         state.radius = event.target.value;
         this.setState(state);
-        console.log(this.state)
-        console.log('--------------------Line 89')
         // var object = scene.getObjectByName( self.state.name );
         // scene.remove(object)
         // animate();
@@ -125,76 +122,129 @@ var PlanetForm = React.createClass({
       // },
 
       handleTiltChange: function(event){
-        console.log(event.target.value)
         var state = this.state;
         state.tilt = event.target.value;
         this.setState(state);
-        console.log(this.state)
-        console.log('--------------------Line 89')
       },
 
       radiusUp: function(event){
         event.preventDefault()
-        console.log(event.target.value)
         var state = this.state;
         var radius = state.radius;
         radius = radius + 1;
         state.radius = radius;
         this.setState(state);
-        console.log(this.state)
       },
 
       radiusDown: function(event){
         event.preventDefault()
-        console.log(event.target.value)
         var state = this.state;
         var radius = state.radius;
         radius = radius - 1;
         state.radius = radius;
         this.setState(state);
-        console.log(this.state)
       },
 
       rotationUp: function(event){
         event.preventDefault()
-        console.log(event.target.value)
         var state = this.state;
         var rotation = state.rotation;
         rotation = rotation + .01;
         state.rotation = rotation;
         this.setState(state);
-        console.log(this.state)
       },
 
       rotationDown: function(event){
         event.preventDefault()
-        console.log(event.target.value)
         var state = this.state;
         var rotation = state.rotation;
         rotation = rotation - .01;
         state.rotation = rotation;
         this.setState(state);
-        console.log(this.state)
       },
 
       tiltUp: function(event){
         event.preventDefault()
-        console.log(event.target.value)
         var state = this.state;
         var tilt = state.tilt;
         tilt = tilt + .01;
         state.tilt = tilt;
         this.setState(state);
-        console.log(this.state)
       },
 
       tiltDown: function(event){
         event.preventDefault()
-        console.log(event.target.value)
         var state = this.state;
         var tilt = state.tilt;
         tilt = tilt - .01;
         state.tilt = tilt;
+        this.setState(state);
+      },
+
+      starRadiusUp: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var radius = state.starRadius;
+        radius = radius + 5;
+        state.starRadius = radius;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      starRadiusDown: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var radius = state.starRadius;
+        radius = radius - 5;
+        state.starRadius = radius;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      handleStarRedChange: function(event){
+        console.log(event.target.value)
+        var state = this.state;
+        state.starRed = event.target.value;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      handleStarGreenChange: function(event){
+        console.log(event.target.value)
+        var state = this.state;
+        state.starGreen = event.target.value;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      handleStarBlueChange: function(event){
+        console.log(event.target.value)
+        var state = this.state;
+        state.starBlue = event.target.value;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      starBrightnessUp: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var brightness = state.starBrightness;
+        brightness = brightness + .5;
+        state.starBrightness = brightness;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      starBrightnessDown: function(event){
+        event.preventDefault()
+        console.log(event.target.value)
+        var state = this.state;
+        var brightness = state.starBrightness;
+        brightness = brightness - .5;
+        state.starBrightness = brightness;
         this.setState(state);
         console.log(this.state)
       },
@@ -305,8 +355,8 @@ var PlanetForm = React.createClass({
 
         // var planetMesh = new THREE.Mesh(planetGeometry, material)
         // scene.add(planetMesh)
-        var color = new THREE.Color("rgb(200, 200, 60)");
-        var starGeometry = new THREE.SphereGeometry(60, 32, 32)
+        var color = new THREE.Color("rgb(" + this.state.starRed + "," + this.state.starGreen + "," + this.state.starBlue + ")");
+        var starGeometry = new THREE.SphereGeometry(this.state.starRadius, 32, 32)
         var starMaterial = new THREE.MeshPhongMaterial()
         starMaterial.map = loader.load('/images/sunmap.jpg')
         // starMaterial.color = color
@@ -352,7 +402,7 @@ var PlanetForm = React.createClass({
         starScene.add(fieldMesh)
         // starScene.add(spotLight)
 
-        starScene.add(hemiLight)
+        // starScene.add(hemiLight)
 
 
 
@@ -361,6 +411,10 @@ var PlanetForm = React.createClass({
         pointLight.position.x = 10;
         pointLight.position.y = 10;
         pointLight.position.z = 190;
+        console.log('POINTLIGHT!_--------------------------')
+        console.log(pointLight)
+        console.log('POINTLIGHT!_--------------------------')
+
 
         var pointLight2 = new THREE.PointLight(0xFFFAFF);
 
@@ -368,6 +422,8 @@ var PlanetForm = React.createClass({
         pointLight2.position.y = 0;
         pointLight2.position.z = 0;
         pointLight2.castShadow = true;
+        pointLight2.intensity = this.state.starBrightness
+        pointLight2.color = color
         console.log(pointLight2)
 
         planetScene.add(pointLight)
@@ -378,7 +434,7 @@ var PlanetForm = React.createClass({
 
           requestAnimationFrame(renderStar)
 
-          var time = Date.now() * 0.001
+          var time = performance.now() * 0.001
 
           planet2.position.x = Math.cos( time ) * 500;
           planet2.position.z = Math.sin( time ) * 500;
@@ -397,7 +453,7 @@ var PlanetForm = React.createClass({
 
           requestAnimationFrame(renderPlanet)
 
-          var time = Date.now() * 0.001
+          var time = performance.now() * 0.001
 
           // planet.position.x = Math.cos( time ) * 100;
           // sun.position.y = Math.sin( time ) * 400;
@@ -442,7 +498,25 @@ var PlanetForm = React.createClass({
             <form className="PlanetForm" onSubmit={this.tiltDown}>
               <button className="btn btn-primary" type="submit" value="post">-</button>
             </form>
-            <div id='results-zone'>
+
+            <div id='star-zone'>
+              <form className="PlanetForm" onSubmit={this.starRadiusUp}>
+                <button className="btn btn-primary" type="submit" value="post">+</button>
+              </form>
+              <form className="PlanetForm" onSubmit={this.starRadiusDown}>
+                <button className="btn btn-primary" type="submit" value="post">-</button>
+              </form>
+              <form className="PlanetForm" onSubmit={this.starBrightnessUp}>
+                <button className="btn btn-primary" type="submit" value="post">+</button>
+              </form>
+              <form className="PlanetForm" onSubmit={this.starBrightnessDown}>
+                <button className="btn btn-primary" type="submit" value="post">-</button>
+              </form>
+              <form className="PlanetForm" onSubmit={this.handleColorSubmit}>
+                <input id="red-box" type="text" placeholder="Red" onChange={this.handleStarRedChange} value={this.state.starRed}/>
+                <input id="red-box" type="text" placeholder="Green" onChange={this.handleStarGreenChange} value={this.state.starGreen}/>
+                <input id="red-box" type="text" placeholder="Blue" onChange={this.handleStarBlueChange} value={this.state.starBlue}/>
+              </form>
 
 
 
