@@ -225,8 +225,8 @@ var PlanetForm = React.createClass({
 
         var starControls = new THREE.TrackballControls( starCamera );
 
-        // var stats = new Stats();
-        // container.appendChild( stats.dom );
+        var stats = new Stats();
+        container.appendChild( stats.dom );
 
         starControls.rotateSpeed = 1.0;
         starControls.zoomSpeed = 1.2;
@@ -378,11 +378,8 @@ var PlanetForm = React.createClass({
 			  // }
 
         function animate() {
-              var time = performance.now() * 0.001
               starControls.update();
-              planet2.rotation.y += self.state.rotation;
-              planet2.position.x = Math.cos( time ) * 500;
-              planet2.position.z = Math.sin( time ) * 500;
+
               requestAnimationFrame( animate );
 
 
@@ -393,7 +390,14 @@ var PlanetForm = React.createClass({
         function renderStar(){
 
           requestAnimationFrame(animate)
-          // requestAnimationFrame(renderStar)
+          requestAnimationFrame(renderStar)
+
+          var time = performance.now() * 0.001
+
+
+          planet2.rotation.y += self.state.rotation;
+          planet2.position.x = Math.cos( time ) * 500;
+          planet2.position.z = Math.sin( time ) * 500;
 
           // var clock = performance.now()
 
