@@ -328,8 +328,12 @@ var PlanetForm = React.createClass({
         // makeSun(sunOptions);
 
 
+        var hemiLight = new THREE.HemisphereLight(0x000000, 0x000000, 0.6);
+        // var spotLight = new Three.SpotLight()
+        var star  = new THREE.Mesh(starGeometry, starMaterial)
 
-        var star = THREEx.Planets.createSun()
+        // var star = THREEx.Planets.createSun()
+        star.opacity = .5
         // star.castShadow = true
         // star.receiveShadow = true
 
@@ -346,6 +350,9 @@ var PlanetForm = React.createClass({
         starScene.add(planet2)
         starScene.add(star)
         starScene.add(fieldMesh)
+        // starScene.add(spotLight)
+
+        starScene.add(hemiLight)
 
 
 
@@ -360,6 +367,8 @@ var PlanetForm = React.createClass({
         pointLight2.position.x = 0;
         pointLight2.position.y = 0;
         pointLight2.position.z = 0;
+        pointLight2.castShadow = true;
+        console.log(pointLight2)
 
         planetScene.add(pointLight)
         starScene.add(pointLight2)
