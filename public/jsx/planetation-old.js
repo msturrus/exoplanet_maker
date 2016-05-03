@@ -283,7 +283,7 @@ var PlanetForm = React.createClass({
       render: function(){
         document.getElementById('planet-preview').innerHTML = ''
         document.getElementById('zone-container').innerHTML = ''
-
+        var container = document.getElementById('zone-container')
         var self = this
 
         var planetScene = new THREE.Scene();
@@ -311,6 +311,19 @@ var PlanetForm = React.createClass({
 
         planetCamera.position.z = 100
         starCamera.position.z = 1000
+
+        var controls = new THREE.OrbitControls( starCamera, starRenderer.domElement );
+				//controls.addEventListener( 'change', render ); // add this only if there is no animation loop (requestAnimationFrame)
+				controls.enableDamping = true;
+				controls.dampingFactor = 0.25;
+				controls.enableZoom = false;
+
+        // var controls = new THREE.FlyControls( starCamera );
+				// controls.movementSpeed = 1000;
+				// controls.domElement = container;
+				// controls.rollSpeed = Math.PI / 24;
+				// controls.autoForward = false;
+				// controls.dragToLook = false;
 
 
 
@@ -435,6 +448,9 @@ var PlanetForm = React.createClass({
           requestAnimationFrame(renderStar)
 
           var time = performance.now() * 0.001
+          // var clock = performance.now()
+
+          // var delta = clock.getDelta();
 
           planet2.position.x = Math.cos( time ) * 500;
           planet2.position.z = Math.sin( time ) * 500;
@@ -442,8 +458,14 @@ var PlanetForm = React.createClass({
           // star.position.y = Math.cos( time ) * 500;
           // planet2.position.z = Math.sin( time ) * 500;
 
+          controls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
 
+          // Fly controls ----------------
           // planet.rotation.x += .3;
+          // controls.movementSpeed = 0.33;
+				  // controls.update( delta );
+
+
           planet2.rotation.y += self.state.rotation;
           starRenderer.render(starScene, starCamera)
 
@@ -460,6 +482,7 @@ var PlanetForm = React.createClass({
           // planet.rotation.x += .3;
           planet.rotation.y += self.state.rotation;
           planetRenderer.render(planetScene, planetCamera)
+
 
         }
 
