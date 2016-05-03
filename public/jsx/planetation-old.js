@@ -221,26 +221,7 @@ var PlanetForm = React.createClass({
         planetCamera.position.z = 100
         starCamera.position.z = 1000
 
-    // Trackball Controls!  Hopefully these work.  UPDATE!  They do not.
 
-        var starControls = new THREE.TrackballControls( starCamera );
-
-        var stats = new Stats();
-        container.appendChild( stats.dom );
-
-        starControls.rotateSpeed = 1.4;
-        starControls.zoomSpeed = 1.8;
-        starControls.panSpeed = 1.6;
-
-        starControls.noZoom = false;
-        starControls.noPan = false;
-
-        starControls.staticMoving = true;
-        starControls.dynamicDampingFactor = 0.3;
-
-        starControls.keys = [ 65, 83, 68 ];
-
-        starControls.addEventListener( 'change', animate );
 
 
     // Orbit controls!  They work great. If they are commented out it means I got trackball controls to work
@@ -271,6 +252,27 @@ var PlanetForm = React.createClass({
 
         document.getElementById('planet-preview').appendChild(planetRenderer.domElement)
         document.getElementById('zone-container').appendChild(starRenderer.domElement)
+
+    // Trackball Controls!  Hopefully these work.  UPDATE!  They do work, their event listeneres dominate
+    // the whole page.  Working on it.
+
+        var starControls = new THREE.TrackballControls( starCamera, starRenderer.domElement );
+
+        var stats = new Stats();
+        container.appendChild( stats.dom );
+
+        starControls.rotateSpeed = 1.4;
+        starControls.zoomSpeed = 1.8;
+        starControls.panSpeed = 1.6;
+        starControls.noZoom = false;
+        starControls.noPan = false;
+
+        starControls.staticMoving = true;
+        starControls.dynamicDampingFactor = 0.3;
+
+        starControls.keys = [ 65, 83, 68 ];
+
+        starControls.addEventListener( 'change', animate );
 
 
         var loader = new THREE.TextureLoader();
