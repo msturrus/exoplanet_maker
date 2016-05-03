@@ -13,113 +13,26 @@ var PlanetForm = React.createClass({
         return {planets: [], radius: 10, name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 2, starRed: 200, starGreen: 200, starBlue: 100}
       },
 
-      // componentDidMount: function(){
-      //   var self = this;
-        // var scene = new THREE.Scene();
-
-
-
-        // var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-        //
-        // var renderer = new THREE.WebGLRenderer();
-        // renderer.setSize( window.innerWidth, window.innerHeight);
-        //
-        // scene.add(camera)
-        // camera.position.z = 100
-        //
-        // document.getElementById('zone-container').appendChild(renderer.domElement)
-
-        // var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
-        // console.log(planetGeometry)
-        // console.log('----------------------------------------------------------------')
-        // var material = new THREE.MeshPhongMaterial()
-        //
-        // var planetMesh = new THREE.Mesh(planetGeometry, material)
-        // scene.add(planetMesh)
-        //
-        // var planet = new THREE.Mesh(planetGeometry, material)
-        // planet.name = self.state.name
-        // console.log(planet)
-        // scene.add(planet);
-
-
-
-        // First argument is the radius , the second argument is the number vertices you can add to your geomotry
-        // var sunGeometry = new THREE.SphereGeometry(50, 32, 32)
-        //
-        // var material = new THREE.MeshLambertMaterial()
-        // material.map  = THREE.TextureLoader('mars_1k_color.jpg')
-        //
-        // var sunMesh = new THREE.Mesh(sunGeometry, material)
-        // scene.add(sunMesh)
-        //
-        // // first parameter is geometry, second is the material
-        // var sun = new THREE.Mesh(sunGeometry, material)
-        //
-        // scene.add(sun);
-
-        // var pointLight = new THREE.PointLight(0xFFFAFF);
-        //
-        // pointLight.position.x = 10;
-        // pointLight.position.y = 10;
-        // pointLight.position.z = 190;
-        //
-        // scene.add(pointLight)
-        //
-        // function render(){
-        //   requestAnimationFrame(render)
-        //
-        //   var time = performance.now() * 0.001
-        //
-        //   // sun.position.x = Math.cos( time ) * 800;
-    	  //   // sun.position.y = Math.sin( time ) * 400;
-        //   // sun.rotation.x += .3;
-        //   // sun.rotation.y -= .05;
-        //   renderer.render(scene, camera)
-        // }
-        //
-        // render()
-      // },
-
       handleRadiusChange: function(event){
         var state = this.state;
         state.radius = event.target.value;
         this.setState(state);
-        // var object = scene.getObjectByName( self.state.name );
-        // scene.remove(object)
-        // animate();
-        // // console.log(object.geometry.boundingSphere.radius);
-        // console.log('--------------------Line 92')
-        // var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
-        // // console.log(planetGeometry)
-        // console.log('----------------------------------------------------------------')
-        // var material = new THREE.MeshPhongMaterial()
-        //
-        // var planetMesh = new THREE.Mesh(planetGeometry, material)
-        // scene.add(planetMesh)
-        //
-        // var planet = new THREE.Mesh(planetGeometry, material)
-        // planet.name = self.state.name
-        // console.log(planet)
-        // scene.add(planet);
-
       },
-      // handleNameChange: function(event){
-      //   console.log(event.target.value)
-      //   var state = this.state;
-      //   state.name = event.target.value;
-      //   this.setState(state);
-      //   console.log(this.state)
-      // },
+      handleNameChange: function(event){
+        console.log(event.target.value)
+        var state = this.state;
+        state.name = event.target.value;
+        this.setState(state);
+        console.log(this.state)
+      },
 
-      // handleRotationChange: function(event){
-      //   console.log(event.target.value)
-      //   var state = this.state;
-      //   state.rotation = event.target.value;
-      //   this.setState(state);
-      //   console.log(this.state)
-      //   console.log('--------------------Line 89')
-      // },
+      handleRotationChange: function(event){
+        console.log(event.target.value)
+        var state = this.state;
+        state.rotation = event.target.value;
+        this.setState(state);
+        console.log(this.state)
+      },
 
       handleTiltChange: function(event){
         var state = this.state;
@@ -274,12 +187,8 @@ var PlanetForm = React.createClass({
         }
         self.state.planets.push(planetInfo);
         console.log(self.state.planets)
-
-
       },
-      // changeRadius: function(){
-      //
-      // },
+
       render: function(){
         document.getElementById('planet-preview').innerHTML = ''
         document.getElementById('zone-container').innerHTML = ''
@@ -312,6 +221,27 @@ var PlanetForm = React.createClass({
         planetCamera.position.z = 100
         starCamera.position.z = 1000
 
+    // Trackball Controls!  Hopefully these work.  UPDATE!  They do not.
+
+        // var starControls = new THREE.TrackballControls( starCamera );
+        //
+        // starControls.rotateSpeed = 1.0;
+        // starControls.zoomSpeed = 1.2;
+        // starControls.panSpeed = 0.8;
+        //
+        // starControls.noZoom = false;
+        // starControls.noPan = false;
+        //
+        // starControls.staticMoving = true;
+        // starControls.dynamicDampingFactor = 0.3;
+        //
+        // starControls.keys = [ 65, 83, 68 ];
+        //
+        // starControls.addEventListener( 'change', renderStar );
+
+
+    // Orbit controls!  They work great. If they are commented out it means I got trackball controls to work
+
         var starControls = new THREE.OrbitControls( starCamera, starRenderer.domElement );
 				//controls.addEventListener( 'change', render ); // add this only if there is no animation loop (requestAnimationFrame)
 				starControls.enableDamping = true;
@@ -323,6 +253,8 @@ var PlanetForm = React.createClass({
 				planetControls.enableDamping = true;
 				planetControls.dampingFactor = 0.25;
 				planetControls.enableZoom = false;
+
+    // Fly controls!  THey are dumb garbage.
 
         // var controls = new THREE.FlyControls( starCamera );
 				// controls.movementSpeed = 1000;
@@ -346,40 +278,30 @@ var PlanetForm = React.createClass({
           if (this.state.radius < 10) {
             material.map = loader.load('/images/mercurymap.jpg')
             material.bumpMap = loader.load('/images/mercurybump.jpg')
-            // material.specularMap = loader.load('/images/earthspec1k.jpg')
           } else if (this.state.radius >= 10 && this.state.radius < 20) {
             material.map = loader.load('/images/marsmap1k.jpg')
             material.bumpMap = loader.load('/images/marsbump1k.jpg')
-            // material.specularMap = loader.load('/images/earthspec1k.jpg')
           } else if (this.state.radius >= 20 && this.state.radius < 50) {
             material.map = loader.load('/images/earthmap1k.jpg')
             material.bumpMap = loader.load('/images/earthbump1k.jpg')
             material.specularMap = loader.load('/images/earthspec1k.jpg')
           } else if (this.state.radius >= 50 ) {
             material.map = loader.load('/images/jupitermap.jpg')
-            // material.bumpMap = loader.load('/images/earthbump1k.jpg')
-            // material.specularMap = loader.load('/images/earthspec1k.jpg')
           }
-        // material.map = loader.load('/images/earthmap1k.jpg')
-        // material.bumpMap = loader.load('/images/earthbump1k.jpg')
-        // material.specularMap = loader.load('/images/earthspec1k.jpg')
 
-        // var material	= new THREE.MeshPhongMaterial({
-      	// 	map		: THREE.TextureLoader('images/earthmap1k.jpg'),
-      	// 	bumpMap		: THREE.TextureLoader('images/earthbump1k.jpg'),
-      	// 	bumpScale	: 0.05,
-      	// 	specularMap	: THREE.TextureLoader('images/earthspec1k.jpg'),
-      	// 	specular	: new THREE.Color('grey'),
-      	// })
-
-        // var planetMesh = new THREE.Mesh(planetGeometry, material)
-        // scene.add(planetMesh)
         var color = new THREE.Color("rgb(" + this.state.starRed + "," + this.state.starGreen + "," + this.state.starBlue + ")");
         var starGeometry = new THREE.SphereGeometry(this.state.starRadius, 32, 32)
         var starMaterial = new THREE.MeshPhongMaterial()
         starMaterial.map = loader.load('/images/sunmap.jpg')
         // starMaterial.color = color
         starMaterial.emissive = color
+        var star  = new THREE.Mesh(starGeometry, starMaterial)
+        star.opacity = .5
+
+        // var star = THREEx.Planets.createSun()
+        // star.castShadow = true
+        // star.receiveShadow = true
+
 
         var fieldGeometry  = new THREE.SphereGeometry(2000, 32, 32)
         var fieldMaterial  = new THREE.MeshBasicMaterial()
@@ -387,24 +309,8 @@ var PlanetForm = React.createClass({
         fieldMaterial.side  = THREE.BackSide
         var fieldMesh  = new THREE.Mesh(fieldGeometry, fieldMaterial)
 
-        // starMaterial.color = 16775936
-        // starMaterial.emissive = 16750593
-        // starMaterial.castShadow = true
-        // starMaterial.receiveShadow = true
-        // var sunOptions = {};
-        // sunOptions.radius = 70
-        // sunOptions.spectral = .5
-        // makeSun(sunOptions);
-
-
         var hemiLight = new THREE.HemisphereLight(0x000000, 0x000000, 0.6);
-        // var spotLight = new Three.SpotLight()
-        var star  = new THREE.Mesh(starGeometry, starMaterial)
 
-        // var star = THREEx.Planets.createSun()
-        star.opacity = .5
-        // star.castShadow = true
-        // star.receiveShadow = true
 
         console.log(star)
 
@@ -466,6 +372,7 @@ var PlanetForm = React.createClass({
 
           starControls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
 
+      // Fly controls - they do not work likely will not work in the forseeable future
           // Fly controls ----------------
           // planet.rotation.x += .3;
           // controls.movementSpeed = 0.33;
@@ -583,32 +490,5 @@ var PlanetForm = React.createClass({
     //   }.bind(this))
     // }
 
-    // var PlanetDiv = React.createClass({
-    //   render: function() {
-    //     return (
-    //       <div draggable="true" className="album-div">
-    //         <p className="album-name">{this.props.name}</p>
-    //         <input type="hidden" name="name" value={this.props.name} />
-    //         <p className="artist-name">{this.props.radius}</p>
-    //         <form className="PlanetForm" onSubmit={this.props.radius =+ 1}>
-    //           <button className="btn btn-primary" type="submit" value="post">+</button>
-    //         </form>
-    //         <form className="PlanetForm" onSubmit={this.props.radius =- 1}>
-    //           <button className="btn btn-primary" type="submit" value="post">-</button>
-    //         </form>
-    //
-    //
-    //       </div>
-    //     )
-    //   }
-    // })
 
     ReactDOM.render(<PlanetForm/>, document.getElementById('example'))
-
-    // material.map  = THREE.TextureLoader('mars_1k_color.jpg')
-
-    // <div draggable="true" className="album-div">
-    // <img src={this.state.albumCover} draggable="false" />
-    // <p>{this.state.album}</p>
-    // <p>{this.state.artist}</p>
-    // </div>
