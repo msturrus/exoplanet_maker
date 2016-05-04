@@ -234,7 +234,7 @@ var PlanetForm = React.createClass({
         var planet = new THREE.Mesh(planetGeometry, material)
         planet.userData.rotation = self.state.rotation
         planet.userData.orbitPeriod = self.state.orbitPeriod
-        planet.userData.orbitMultiplier = elf.state.orbitMultiplier
+        planet.userData.orbitMultiplier = self.state.orbitMultiplier
 
 
 
@@ -335,22 +335,22 @@ var PlanetForm = React.createClass({
 
         var loader = new THREE.TextureLoader();
 
-        // var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
+        var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
 
-        // var material = new THREE.MeshPhongMaterial()
-        //   if (this.state.radius < 10) {
-        //     material.map = loader.load('/images/mercurymap.jpg')
-        //     material.bumpMap = loader.load('/images/mercurybump.jpg')
-        //   } else if (this.state.radius >= 10 && this.state.radius < 20) {
-        //     material.map = loader.load('/images/marsmap1k.jpg')
-        //     material.bumpMap = loader.load('/images/marsbump1k.jpg')
-        //   } else if (this.state.radius >= 20 && this.state.radius < 50) {
-        //     material.map = loader.load('/images/earthmap1k.jpg')
-        //     material.bumpMap = loader.load('/images/earthbump1k.jpg')
-        //     material.specularMap = loader.load('/images/earthspec1k.jpg')
-        //   } else if (this.state.radius >= 50 ) {
-        //     material.map = loader.load('/images/jupitermap.jpg')
-        //   }
+        var material = new THREE.MeshPhongMaterial()
+          if (this.state.radius < 10) {
+            material.map = loader.load('/images/mercurymap.jpg')
+            material.bumpMap = loader.load('/images/mercurybump.jpg')
+          } else if (this.state.radius >= 10 && this.state.radius < 20) {
+            material.map = loader.load('/images/marsmap1k.jpg')
+            material.bumpMap = loader.load('/images/marsbump1k.jpg')
+          } else if (this.state.radius >= 20 && this.state.radius < 50) {
+            material.map = loader.load('/images/earthmap1k.jpg')
+            material.bumpMap = loader.load('/images/earthbump1k.jpg')
+            material.specularMap = loader.load('/images/earthspec1k.jpg')
+          } else if (this.state.radius >= 50 ) {
+            material.map = loader.load('/images/jupitermap.jpg')
+          }
 
         var color = new THREE.Color("rgb(" + this.state.starRed + "," + this.state.starGreen + "," + this.state.starBlue + ")");
         var starGeometry = new THREE.SphereGeometry(this.state.starRadius, 32, 32)
@@ -385,7 +385,7 @@ var PlanetForm = React.createClass({
 
 
         var planet = new THREE.Mesh(planetGeometry, material)
-        var planet2 = new THREE.Mesh(planetGeometry, material)
+        // var planet2 = new THREE.Mesh(planetGeometry, material)
         planet.name = self.state.name
         planet.rotation.z = self.state.tilt;
 
