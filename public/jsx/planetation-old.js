@@ -588,6 +588,12 @@ var PlanetForm = React.createClass({
                 </form>
               </div>
             </div>
+            {
+
+              this.state.planets.map(function(planet, i){
+                return <PlanetDiv id={planet.id} name={planet.name} key={i} />
+              }.bind(this))
+            }
           </div>
 
         )
@@ -599,6 +605,19 @@ var PlanetForm = React.createClass({
     //     return <PlanetDiv radius={planet.radius} name={planet.name} location={1} key={i} />
     //   }.bind(this))
     // }
+    var PlanetDiv = React.createClass({
+      render: function() {
+        return (
+          <div className="planet-div">
+            <form className="PlanetForm" onSubmit={this.handleDelete}>
+              <span className="planet-name">{this.props.name}</span>
+              <input type="hidden" name="id" value={this.props.id} />
+              <button className="btn btn-danger" type="submit" value="post">X</button>
+            </form>
+          </div>
+        )
+      }
+    })
 
 
 
