@@ -209,37 +209,20 @@ var PlanetForm = React.createClass({
       handleAddPlanet: function(event){
         event.preventDefault();
         var self = this;
+        var addPlanet = planetScene.getObjectByName( self.state.name );
+        console.log(planetScene)
+        console.log(addPlanet)
 
         var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
 
-        var loader = new THREE.TextureLoader();
-
-
         var material = new THREE.MeshPhongMaterial()
-          if (this.state.radius < 10) {
-            material.map = loader.load('/images/mercurymap.jpg')
-            material.bumpMap = loader.load('/images/mercurybump.jpg')
-          } else if (this.state.radius >= 10 && this.state.radius < 20) {
-            material.map = loader.load('/images/marsmap1k.jpg')
-            material.bumpMap = loader.load('/images/marsbump1k.jpg')
-          } else if (this.state.radius >= 20 && this.state.radius < 50) {
-            material.map = loader.load('/images/earthmap1k.jpg')
-            material.bumpMap = loader.load('/images/earthbump1k.jpg')
-            material.specularMap = loader.load('/images/earthspec1k.jpg')
-          } else if (this.state.radius >= 50 ) {
-            material.map = loader.load('/images/jupitermap.jpg')
-          }
 
+        var planetMesh = new THREE.Mesh(planetGeometry, material)
+        scene.add(planetMesh)
 
         var planet = new THREE.Mesh(planetGeometry, material)
-        planet.userData.rotation = self.state.rotation
-        planet.userData.orbitPeriod = self.state.orbitPeriod
-        planet.userData.orbitMultiplier = elf.state.orbitMultiplier
-
-
-
+        planet.userData.state = self.state
         console.log(planet)
-
 
         // scene.add(planet);
 
@@ -335,22 +318,22 @@ var PlanetForm = React.createClass({
 
         var loader = new THREE.TextureLoader();
 
-        // var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
+        var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
 
-        // var material = new THREE.MeshPhongMaterial()
-        //   if (this.state.radius < 10) {
-        //     material.map = loader.load('/images/mercurymap.jpg')
-        //     material.bumpMap = loader.load('/images/mercurybump.jpg')
-        //   } else if (this.state.radius >= 10 && this.state.radius < 20) {
-        //     material.map = loader.load('/images/marsmap1k.jpg')
-        //     material.bumpMap = loader.load('/images/marsbump1k.jpg')
-        //   } else if (this.state.radius >= 20 && this.state.radius < 50) {
-        //     material.map = loader.load('/images/earthmap1k.jpg')
-        //     material.bumpMap = loader.load('/images/earthbump1k.jpg')
-        //     material.specularMap = loader.load('/images/earthspec1k.jpg')
-        //   } else if (this.state.radius >= 50 ) {
-        //     material.map = loader.load('/images/jupitermap.jpg')
-        //   }
+        var material = new THREE.MeshPhongMaterial()
+          if (this.state.radius < 10) {
+            material.map = loader.load('/images/mercurymap.jpg')
+            material.bumpMap = loader.load('/images/mercurybump.jpg')
+          } else if (this.state.radius >= 10 && this.state.radius < 20) {
+            material.map = loader.load('/images/marsmap1k.jpg')
+            material.bumpMap = loader.load('/images/marsbump1k.jpg')
+          } else if (this.state.radius >= 20 && this.state.radius < 50) {
+            material.map = loader.load('/images/earthmap1k.jpg')
+            material.bumpMap = loader.load('/images/earthbump1k.jpg')
+            material.specularMap = loader.load('/images/earthspec1k.jpg')
+          } else if (this.state.radius >= 50 ) {
+            material.map = loader.load('/images/jupitermap.jpg')
+          }
 
         var color = new THREE.Color("rgb(" + this.state.starRed + "," + this.state.starGreen + "," + this.state.starBlue + ")");
         var starGeometry = new THREE.SphereGeometry(this.state.starRadius, 32, 32)
@@ -372,16 +355,15 @@ var PlanetForm = React.createClass({
         fieldMaterial.side  = THREE.BackSide
         var fieldMesh  = new THREE.Mesh(fieldGeometry, fieldMaterial)
         var fieldMesh2  = new THREE.Mesh(fieldGeometry, fieldMaterial)
+        console.log('fieldmesh2 begin-----------------------------------------')
+        console.log(fieldMesh2)
+        console.log('fieldmesh2 end-----------------------------------------')
 
 
         var hemiLight = new THREE.HemisphereLight(0x000000, 0x000000, 0.6);
 
 
         console.log(star)
-
-        this.state.planets.map(function(planet, i){
-          starScene.add(planet);
-        })
 
 
         var planet = new THREE.Mesh(planetGeometry, material)
@@ -391,6 +373,7 @@ var PlanetForm = React.createClass({
 
         planetScene.add(planet);
         planetScene.add(fieldMesh2)
+        starScene.add(planet2)
         starScene.add(star)
         starScene.add(fieldMesh)
         // starScene.add(spotLight)
@@ -404,7 +387,9 @@ var PlanetForm = React.createClass({
         pointLight.position.x = 10;
         pointLight.position.y = 10;
         pointLight.position.z = 190;
-
+        console.log('POINTLIGHT!_--------------------------')
+        console.log(pointLight)
+        console.log('POINTLIGHT!_--------------------------')
 
 
         var pointLight2 = new THREE.PointLight(0xFFFAFF);
@@ -415,6 +400,7 @@ var PlanetForm = React.createClass({
         pointLight2.castShadow = true;
         pointLight2.intensity = this.state.starBrightness
         pointLight2.color = color
+        console.log(pointLight2)
 
         planetScene.add(pointLight)
         starScene.add(pointLight2)
@@ -450,16 +436,19 @@ var PlanetForm = React.createClass({
           requestAnimationFrame(renderStar)
           starControls.update();
 
-          self.state.planets.map(function(planet, i){
-            var time = performance.now() * self.state.orbitPeriod
-            planet.rotation.y += planet.userData.rotation;
-            planet.position.x = Math.cos( time ) * planet.userData.orbitMultiplier;
-            planet.position.z = Math.sin( time ) * planet.userData.orbitMultiplier;
 
-          })
+          var time = performance.now() * self.state.orbitPeriod
+
+
+          planet2.rotation.y += self.state.rotation;
+          planet2.position.x = Math.cos( time ) * self.state.orbitMultiplier;
+          planet2.position.z = Math.sin( time ) * self.state.orbitMultiplier;
+
           // var clock = performance.now()
 
           // var delta = clock.getDelta();
+
+
 
           // star.position.y = Math.cos( time ) * 500;
           // planet2.position.z = Math.sin( time ) * 500;
