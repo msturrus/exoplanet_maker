@@ -211,7 +211,7 @@ var PlanetForm = React.createClass({
         var self = this;
         var state = this.state
         var namebox = document.getElementById('name-box')
-        
+
         state.name = namebox.value
 
 
@@ -378,7 +378,7 @@ var PlanetForm = React.createClass({
         // starMaterial.color = color
         starMaterial.emissive = color
         var star  = new THREE.Mesh(starGeometry, starMaterial)
-        star.opacity = .5
+        // star.opacity = .5
 
         // var star = THREEx.Planets.createSun()
         // star.castShadow = true
@@ -402,9 +402,22 @@ var PlanetForm = React.createClass({
           starScene.add(planet);
         })
 
+        var planetGeometry2 = new THREE.SphereGeometry(self.state.radius, 32, 32)
+        var material2 = new THREE.MeshPhongMaterial()
+        var color2 = new THREE.Color("rgb(50,50,200)");
+        material2.emissive = color2
+        material2.opacity = .4
+        material2.transparent = true
+
+
+
+
+
+
 
         var planet = new THREE.Mesh(planetGeometry, material)
-        var planet2 = new THREE.Mesh(planetGeometry, material)
+        var planet2 = new THREE.Mesh(planetGeometry2, material2)
+
         console.log("---------------PLANET 2!-----------")
         console.log(planet2)
         console.log("---------------PLANET 2!-----------")
@@ -473,6 +486,8 @@ var PlanetForm = React.createClass({
           // requestAnimationFrame(animate)
           requestAnimationFrame(renderStar)
           starControls.update();
+          var previewTime = performance.now() * self.state.orbitPeriod
+
 
           self.state.planets.map(function(planet, i){
             var time = performance.now() * planet.userData.orbitPeriod
@@ -481,6 +496,12 @@ var PlanetForm = React.createClass({
             planet.position.z = Math.sin( time ) * planet.userData.orbitMultiplier;
 
           })
+
+          planet2.rotation.y += self.state.rotation;
+
+          planet2.position.x = Math.cos( previewTime ) * self.state.orbitMultiplier;
+          planet2.position.z = Math.sin( previewTime ) * self.state.orbitMultiplier;
+
           // var clock = performance.now()
 
           // var delta = clock.getDelta();
@@ -495,7 +516,7 @@ var PlanetForm = React.createClass({
           // planet.rotation.x += .3;
           // controls.movementSpeed = 0.33;
 				  // controls.update( delta );
-
+          stats.update();
 
           starRenderer.render(starScene, starCamera)
 
@@ -602,16 +623,16 @@ var PlanetForm = React.createClass({
                   <button className="btn btn-primary" type="submit" value="post">-</button>
                 </form>
               </div>
-              <div className="controlDiv">
-                {
-
-                  this.state.planets.map(function(planet, i){
-                    return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove}key={i} />
-                  }.bind(this))
-                }
-              </div>
             </div>
             <div id="delete-container">
+            <div className="controlDiv">
+              {
+
+                this.state.planets.map(function(planet, i){
+                  return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove}key={i} />
+                }.bind(this))
+              }
+            </div>
 
             </div>
           </div>
