@@ -210,6 +210,10 @@ var PlanetForm = React.createClass({
         event.preventDefault();
         var self = this;
         var state = this.state
+        var namebox = document.getElementById('name-box')
+        
+        state.name = namebox.value
+
 
         var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
 
@@ -246,7 +250,7 @@ var PlanetForm = React.createClass({
         // scene.add(planet);
 
         self.state.planets.push(planet);
-        this.setState(state);
+        self.setState(state);
 
         console.log(self.state.planets)
       },
@@ -523,13 +527,13 @@ var PlanetForm = React.createClass({
             <div id="planet-zone">
               <div className="controlDiv">
                 <form className="PlanetForm" onSubmit={this.handleAddPlanet}>
-                  <input id="search-box" type="text" placeholder="Name" onChange={this.handleNameChange} value={this.state.name}/>
+                  <input id="name-box" type="text" placeholder="Name" />
                   <button className="btn btn-primary" type="submit" value="post">Add</button>
                 </form>
               </div>
               <div className="controlDiv">
                 <label>Radius Controls</label>
-                <input id="search-box" type="text" placeholder="Radius" onChange={this.handleRadiusChange} value={this.state.radius}/>
+                <input type="text" placeholder="Radius" onChange={this.handleRadiusChange} value={this.state.radius}/>
                 <form className="PlanetForm" onSubmit={this.radiusUp}>
                   <button className="btn btn-primary" type="submit" value="post">+</button>
                 </form>
@@ -540,7 +544,7 @@ var PlanetForm = React.createClass({
               <div className="controlDiv">
                 <form className="PlanetForm" onSubmit={this.handleSubmit}>
                   <label>Rotation Speed</label>
-                  <input id="search-box" type="text" placeholder="Rotation" onChange={this.handleRotationChange} value={this.state.rotation}/>
+                  <input type="text" placeholder="Rotation" onChange={this.handleRotationChange} value={this.state.rotation}/>
                 </form>
                 <form className="PlanetForm" onSubmit={this.rotationUp}>
                   <button className="btn btn-primary" type="submit" value="post">+</button>
