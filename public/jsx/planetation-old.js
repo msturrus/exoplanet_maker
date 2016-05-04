@@ -241,6 +241,8 @@ var PlanetForm = React.createClass({
         planet.userData.rotation = self.state.rotation
         planet.userData.orbitPeriod = self.state.orbitPeriod
         planet.userData.orbitMultiplier = self.state.orbitMultiplier
+        planet.castShadow = true
+        planet.receiveShadow = true
 
 
 
@@ -290,7 +292,9 @@ var PlanetForm = React.createClass({
         planetRenderer.setSize( 250, 250 );
 
         var starRenderer = new THREE.WebGLRenderer();
+        starRenderer.shadowMapEnabled = true;
         starRenderer.setSize( 600, 600 );
+        
 
         planetScene.add(planetCamera)
         starScene.add(starCamera)
