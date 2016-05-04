@@ -162,6 +162,14 @@ var PlanetForm = React.createClass({
         console.log(this.state)
       },
 
+      handleOrbitMultiplierChange: function(event){
+        console.log(event.target.value)
+        var state = this.state;
+        state.orbitMultiplier = event.target.value;
+        this.setState(state);
+        console.log(this.state)
+      },
+
       orbitMultiplierUp: function(event){
         event.preventDefault()
         console.log(event.target.value)
@@ -180,6 +188,14 @@ var PlanetForm = React.createClass({
         var orbit = state.orbitMultiplier;
         orbit = orbit - 100;
         state.orbitMultiplier = orbit;
+        this.setState(state);
+        console.log(this.state)
+      },
+
+      handleOrbitPeriodChange: function(event){
+        console.log(event.target.value)
+        var state = this.state;
+        state.orbitPeriod = event.target.value;
         this.setState(state);
         console.log(this.state)
       },
@@ -294,7 +310,7 @@ var PlanetForm = React.createClass({
         var starRenderer = new THREE.WebGLRenderer();
         starRenderer.shadowMapEnabled = true;
         starRenderer.setSize( 600, 600 );
-        
+
 
         planetScene.add(planetCamera)
         starScene.add(starCamera)
@@ -611,6 +627,7 @@ var PlanetForm = React.createClass({
             <div id='orbital-zone'>
               <div className="controlDiv">
                 <label>Orbital Distance: {this.state.orbitMultiplier}</label>
+                <input id="red-box" type="text" placeholder="Red" onChange={this.handleOrbitMultiplierChange} value={this.state.orbitMultiplier}/>
                 <form className="PlanetForm" onSubmit={this.orbitMultiplierUp}>
                   <button className="btn btn-primary" type="submit" value="post">+</button>
                 </form>
@@ -620,6 +637,7 @@ var PlanetForm = React.createClass({
               </div>
               <div className="controlDiv">
                 <label>Orbital Period: {this.state.orbitPeriod}</label>
+                <input id="red-box" type="text" placeholder="Red" onChange={this.handleOrbitPeriodChange} value={this.state.orbitPeriod}/>
                 <form className="PlanetForm" onSubmit={this.orbitPeriodUp}>
                   <button className="btn btn-primary" type="submit" value="post">+</button>
                 </form>
