@@ -209,6 +209,7 @@ var PlanetForm = React.createClass({
       handleAddPlanet: function(event){
         event.preventDefault();
         var self = this;
+        var state = this.state
 
         var planetGeometry = new THREE.SphereGeometry(self.state.radius, 32, 32)
 
@@ -232,6 +233,7 @@ var PlanetForm = React.createClass({
 
 
         var planet = new THREE.Mesh(planetGeometry, material)
+        planet.name = self.state.name
         planet.userData.rotation = self.state.rotation
         planet.userData.orbitPeriod = self.state.orbitPeriod
         planet.userData.orbitMultiplier = self.state.orbitMultiplier
@@ -244,6 +246,8 @@ var PlanetForm = React.createClass({
         // scene.add(planet);
 
         self.state.planets.push(planet);
+        this.setState(state);
+
         console.log(self.state.planets)
       },
 
@@ -385,7 +389,11 @@ var PlanetForm = React.createClass({
 
 
         var planet = new THREE.Mesh(planetGeometry, material)
-        // var planet2 = new THREE.Mesh(planetGeometry, material)
+        var planet2 = new THREE.Mesh(planetGeometry, material)
+        console.log("---------------PLANET 2!-----------")
+        console.log(planet2)
+        console.log("---------------PLANET 2!-----------")
+
         planet.name = self.state.name
         planet.rotation.z = self.state.tilt;
 
@@ -393,6 +401,7 @@ var PlanetForm = React.createClass({
         planetScene.add(fieldMesh2)
         starScene.add(star)
         starScene.add(fieldMesh)
+        starScene.add(planet2)
         // starScene.add(spotLight)
 
         starScene.add(hemiLight)
@@ -451,7 +460,7 @@ var PlanetForm = React.createClass({
           starControls.update();
 
           self.state.planets.map(function(planet, i){
-            var time = performance.now() * self.state.orbitPeriod
+            var time = performance.now() * planet.userData.orbitPeriod
             planet.rotation.y += planet.userData.rotation;
             planet.position.x = Math.cos( time ) * planet.userData.orbitMultiplier;
             planet.position.z = Math.sin( time ) * planet.userData.orbitMultiplier;
@@ -533,7 +542,7 @@ var PlanetForm = React.createClass({
 
             <div id='star-zone'>
               <div className="controlDiv">
-                <label>Star Radius</label>
+                <label>Star Radius: {this.state.starRadius}</label>
                 <form className="PlanetForm" onSubmit={this.starRadiusUp}>
                   <button className="btn btn-primary" type="submit" value="post">+</button>
                 </form>
@@ -542,7 +551,7 @@ var PlanetForm = React.createClass({
                 </form>
               </div>
               <div className="controlDiv">
-                <label>Star Brightness</label>
+                <label>Star Brightness: {this.state.starBrightness}</label>
                 <form className="PlanetForm" onSubmit={this.starBrightnessUp}>
                   <button className="btn btn-primary" type="submit" value="post">+</button>
                 </form>
@@ -561,7 +570,7 @@ var PlanetForm = React.createClass({
             </div>
             <div id='orbital-zone'>
               <div className="controlDiv">
-                <label>Orbital Distance</label>
+                <label>Orbital Distance: {this.state.orbitMultiplier}</label>
                 <form className="PlanetForm" onSubmit={this.orbitMultiplierUp}>
                   <button className="btn btn-primary" type="submit" value="post">+</button>
                 </form>
@@ -570,7 +579,7 @@ var PlanetForm = React.createClass({
                 </form>
               </div>
               <div className="controlDiv">
-                <label>Orbital Period</label>
+                <label>Orbital Period: {this.state.orbitPeriod}</label>
                 <form className="PlanetForm" onSubmit={this.orbitPeriodUp}>
                   <button className="btn btn-primary" type="submit" value="post">+</button>
                 </form>
