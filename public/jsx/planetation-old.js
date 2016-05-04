@@ -250,7 +250,18 @@ var PlanetForm = React.createClass({
 
         console.log(self.state.planets)
       },
-
+      planetRemove: function(id){
+        var self = this;
+        var state = this.state;
+        console.log(id);
+        state.planets.map(function(planet, i){
+          var index = state.planets.indexOf(planet)
+          if (planet.id === id) {
+            state.planets.splice(index, 1)
+            self.setState(state)
+          }
+        })
+      },
       render: function(){
         document.getElementById('planet-preview').innerHTML = ''
         document.getElementById('zone-container').innerHTML = ''
@@ -588,12 +599,14 @@ var PlanetForm = React.createClass({
                 </form>
               </div>
             </div>
+            <div id="delete-container">
             {
 
               this.state.planets.map(function(planet, i){
-                return <PlanetDiv id={planet.id} name={planet.name} key={i} />
+                return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove}key={i} />
               }.bind(this))
             }
+            </div>
           </div>
 
         )
@@ -606,14 +619,18 @@ var PlanetForm = React.createClass({
     //   }.bind(this))
     // }
     var PlanetDiv = React.createClass({
+      handleSubmit: function(planet){
+        console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
+        console.log(planet)
+        this.props.planetRemove(planet)
+        console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
+      },
       render: function() {
         return (
           <div className="planet-div">
-            <form className="PlanetForm" onSubmit={this.handleDelete}>
               <span className="planet-name">{this.props.name}</span>
               <input type="hidden" name="id" value={this.props.id} />
-              <button className="btn btn-danger" type="submit" value="post">X</button>
-            </form>
+              <button className="btn btn-danger" onClick={this.handleSubmit.bind(this, this.props.id)}>X</button>
           </div>
         )
       }
