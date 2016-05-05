@@ -296,7 +296,7 @@ var PlanetForm = React.createClass({
           if (planet.id === id) {
             var loader = new THREE.TextureLoader();
             var moonGeometry  = new THREE.SphereGeometry(planet.geometry.boundingSphere.radius / 5 + Math.random() * 2, 32, 32)
-            var moonMaterial  = new THREE.MeshBasicMaterial()
+            var moonMaterial  = new THREE.MeshPhongMaterial()
               if (planet.userData.orbitMultiplier < 200) {
                 moonMaterial.map = loader.load('/images/venusmap.jpg')
                 moonMaterial.bumpMap = loader.load('/images/venusbump.jpg')
