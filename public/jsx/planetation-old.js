@@ -284,6 +284,34 @@ var PlanetForm = React.createClass({
           }
         })
       },
+
+      addMoon: function(id){
+        var self = this;
+        var state = this.state;
+        console.log(id);
+        state.planets.map(function(planet, i){
+          var index = state.planets.indexOf(planet)
+          if (planet.id === id) {
+            var loader = new THREE.TextureLoader();
+            var moonGeometry  = new THREE.SphereGeometry(10, 32, 32)
+            var moonMaterial  = new THREE.MeshBasicMaterial()
+            moonMaterial.map = loader.load('/images/moonmap1k.jpg')
+            var moon  = new THREE.Mesh(moonGeometry, moonMaterial)
+
+            moon.userData.rotation = .01
+            moon.userData.orbitPeriod = .003
+            moon.userData.orbitMultiplier = 75
+            moon.castShadow = true
+            moon.receiveShadow = true
+
+            planet.children.push(moon)
+            console.log(moon)
+            console.log(planet)
+
+            self.setState(state)
+          }
+        })
+      },
       render: function(){
         document.getElementById('planet-preview').innerHTML = ''
         document.getElementById('zone-container').innerHTML = ''
@@ -510,10 +538,21 @@ var PlanetForm = React.createClass({
 
 
           self.state.planets.map(function(planet, i){
-            var time = performance.now() * planet.userData.orbitPeriod
+            var time = performance.now() * planet.userData.orbitPeriod;
             planet.rotation.y += planet.userData.rotation;
             planet.position.x = Math.cos( time ) * planet.userData.orbitMultiplier;
             planet.position.z = Math.sin( time ) * planet.userData.orbitMultiplier;
+            planet.children.map(function(moon, i){
+              moon.rotation.y += moon.userData.rotation;
+              var time3 = performance.now() * moon.userData.orbitPeriod;
+
+
+              // moon.position.set(planet.position.x, planet.position.y, planet.position.z);
+
+
+              moon.position.x = planet.position.x + Math.cos( time3 ) * moon.userData.orbitMultiplier;
+              moon.position.z = planet.position.z + Math.sin( time3 ) * moon.userData.orbitMultiplier;
+            })
 
           })
 
@@ -651,7 +690,7 @@ var PlanetForm = React.createClass({
               {
 
                 this.state.planets.map(function(planet, i){
-                  return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove}key={i} />
+                  return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove} addMoon ={this.addMoon} key={i} />
                 }.bind(this))
               }
             </div>
@@ -675,11 +714,18 @@ var PlanetForm = React.createClass({
         this.props.planetRemove(planet)
         console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
       },
+      handleAddMoon: function(id){
+        console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
+        console.log(id)
+        this.props.addMoon(id)
+        console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
+      },
       render: function() {
         return (
           <div className="planet-div">
               <span className="planet-name">{this.props.name}</span>
               <input type="hidden" name="id" value={this.props.id} />
+              <button className="btn btn-success" onClick={this.handleAddMoon.bind(this, this.props.id)}>M!</button>
               <button className="btn btn-danger" onClick={this.handleSubmit.bind(this, this.props.id)}>X</button>
           </div>
         )
