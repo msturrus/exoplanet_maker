@@ -620,7 +620,7 @@ var PlanetForm = React.createClass({
         return(
 
           <div id="results-container">
-            <div id="planet-zone">
+            <div id="star-zone">
 
               <div className="controlDiv">
                 <form className="PlanetForm" onSubmit={this.handleAddPlanet}>
@@ -698,17 +698,20 @@ var PlanetForm = React.createClass({
                   <button className="btn btn-primary" type="submit" value="post">-</button>
                 </form>
               </div>
-            <div id="delete-container">
-              <div className="controlDiv">
-                {
-
-                  this.state.planets.map(function(planet, i){
-                    return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove} addMoon ={this.addMoon} key={i} />
-                  }.bind(this))
-                }
-              </div>
-
             </div>
+            <div id="planet-zone">
+
+              <div id="delete-container">
+                <div className="controlDiv">
+                  {
+
+                    this.state.planets.map(function(planet, i){
+                      return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove} addMoon ={this.addMoon} key={i} />
+                    }.bind(this))
+                  }
+                </div>
+
+              </div>
             </div>
           </div>
 
