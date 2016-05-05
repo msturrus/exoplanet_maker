@@ -5,6 +5,7 @@ window.onload = function() {
 };
 
 $('#control-btn').click(function() {
-	$('#control_box').slideToggle();
+	$('.jumbotron').slideToggle();
+	$('#example').slideToggle();
   console.log('ya toggled the damn box')
 })

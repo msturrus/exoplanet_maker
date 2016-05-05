@@ -243,10 +243,12 @@ var PlanetForm = React.createClass({
           } else if (this.state.radius >= 10 && this.state.radius < 20) {
             material.map = loader.load('/images/marsmap1k.jpg')
             material.bumpMap = loader.load('/images/marsbump1k.jpg')
-          } else if (this.state.radius >= 20 && this.state.radius < 50) {
+          } else if (this.state.radius >= 20 && this.state.radius < 35) {
             material.map = loader.load('/images/earthmap1k.jpg')
             material.bumpMap = loader.load('/images/earthbump1k.jpg')
             material.specularMap = loader.load('/images/earthspec1k.jpg')
+          } else if (this.state.radius >= 35 && this.state.radius < 50) {
+            material.map = loader.load('/images/neptunemap.jpg')
           } else if (this.state.radius >= 50 ) {
             material.map = loader.load('/images/jupitermap.jpg')
           }
@@ -293,14 +295,26 @@ var PlanetForm = React.createClass({
           var index = state.planets.indexOf(planet)
           if (planet.id === id) {
             var loader = new THREE.TextureLoader();
-            var moonGeometry  = new THREE.SphereGeometry(10, 32, 32)
+            var moonGeometry  = new THREE.SphereGeometry(planet.geometry.boundingSphere.radius / 5 + Math.random() * 2, 32, 32)
             var moonMaterial  = new THREE.MeshBasicMaterial()
-            moonMaterial.map = loader.load('/images/moonmap1k.jpg')
+              if (planet.userData.orbitMultiplier < 200) {
+                moonMaterial.map = loader.load('/images/venusmap.jpg')
+                moonMaterial.bumpMap = loader.load('/images/venusbump.jpg')
+              } else if (planet.userData.orbitMultiplier >= 200 && planet.userData.orbitMultiplier < 600) {
+                moonMaterial.map = loader.load('/images/moonmap1k.jpg')
+                moonMaterial.bumpMap = loader.load('/images/moonbump1k.jpg')
+              } else if (planet.userData.orbitMultiplier >= 600 ) {
+                moonMaterial.map = loader.load('/images/plutomap1k.jpg')
+              }
             var moon  = new THREE.Mesh(moonGeometry, moonMaterial)
 
+            moonMaterial.castShadow = true
+            moonMaterial.receiveShadow = true
+
+
             moon.userData.rotation = .01
-            moon.userData.orbitPeriod = .003
-            moon.userData.orbitMultiplier = 75
+            moon.userData.orbitPeriod = .002 + Math.random() * .01
+            moon.userData.orbitMultiplier = planet.geometry.boundingSphere.radius * 2 + Math.random()
             moon.castShadow = true
             moon.receiveShadow = true
 
@@ -327,7 +341,7 @@ var PlanetForm = React.createClass({
         var planetCamera = new THREE.PerspectiveCamera(75, 250 / 250, 0.1, 10000);
         planetCamera.name = "planetCamera"
 
-        var starCamera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 10000);
+        var starCamera = new THREE.PerspectiveCamera(75, 1200 / 600, 0.1, 10000);
         starCamera.name = "starCamera"
         starCamera.lookAt(starScene.position)
         console.log(starCamera)
@@ -337,7 +351,7 @@ var PlanetForm = React.createClass({
 
         var starRenderer = new THREE.WebGLRenderer();
         starRenderer.shadowMapEnabled = true;
-        starRenderer.setSize( 600, 600 );
+        starRenderer.setSize( 1200, 600 );
 
 
         planetScene.add(planetCamera)
@@ -411,10 +425,12 @@ var PlanetForm = React.createClass({
           } else if (this.state.radius >= 10 && this.state.radius < 20) {
             material.map = loader.load('/images/marsmap1k.jpg')
             material.bumpMap = loader.load('/images/marsbump1k.jpg')
-          } else if (this.state.radius >= 20 && this.state.radius < 50) {
+          } else if (this.state.radius >= 20 && this.state.radius < 35) {
             material.map = loader.load('/images/earthmap1k.jpg')
             material.bumpMap = loader.load('/images/earthbump1k.jpg')
             material.specularMap = loader.load('/images/earthspec1k.jpg')
+          } else if (this.state.radius >= 35 && this.state.radius < 50) {
+            material.map = loader.load('/images/neptunemap.jpg')
           } else if (this.state.radius >= 50 ) {
             material.map = loader.load('/images/jupitermap.jpg')
           }
@@ -605,6 +621,7 @@ var PlanetForm = React.createClass({
 
           <div id="results-container">
             <div id="planet-zone">
+
               <div className="controlDiv">
                 <form className="PlanetForm" onSubmit={this.handleAddPlanet}>
                   <input id="name-box" type="text" placeholder="Name" />
@@ -633,9 +650,7 @@ var PlanetForm = React.createClass({
                   <button className="btn btn-primary" type="submit" value="post">-</button>
                 </form>
               </div>
-            </div>
 
-            <div id='star-zone'>
               <div className="controlDiv">
                 <label>Star Radius: {this.state.starRadius}</label>
                 <form className="PlanetForm" onSubmit={this.starRadiusUp}>
@@ -662,8 +677,7 @@ var PlanetForm = React.createClass({
                   <input id="red-box" type="text" placeholder="Blue" onChange={this.handleStarBlueChange} value={this.state.starBlue}/>
                 </form>
               </div>
-            </div>
-            <div id='orbital-zone'>
+
               <div className="controlDiv">
                 <label>Orbital Distance: {this.state.orbitMultiplier}</label>
                 <input id="red-box" type="text" placeholder="Red" onChange={this.handleOrbitMultiplierChange} value={this.state.orbitMultiplier}/>
@@ -684,17 +698,17 @@ var PlanetForm = React.createClass({
                   <button className="btn btn-primary" type="submit" value="post">-</button>
                 </form>
               </div>
-            </div>
             <div id="delete-container">
-            <div className="controlDiv">
-              {
+              <div className="controlDiv">
+                {
 
-                this.state.planets.map(function(planet, i){
-                  return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove} addMoon ={this.addMoon} key={i} />
-                }.bind(this))
-              }
+                  this.state.planets.map(function(planet, i){
+                    return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove} addMoon ={this.addMoon} key={i} />
+                  }.bind(this))
+                }
+              </div>
+
             </div>
-
             </div>
           </div>
 
@@ -746,5 +760,12 @@ var PlanetForm = React.createClass({
     //     <button className="btn btn-primary" type="submit" value="post">-</button>
     //   </form>
     // </div>
+
+    // <div id="planet-zone">
+    // <div id='star-zone'>
+    // <div id='orbital-zone'>
+
+
+
 
     ReactDOM.render(<PlanetForm/>, document.getElementById('example'))

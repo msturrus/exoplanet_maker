@@ -6858,6 +6858,20 @@ textarea {
 #orbital-zone {
   display: flex;
 }
+#delete-container {
+  display: flex;
+  flex-grow: 1;
+}
+.planet-div {
+  flex-grow: 1;
+  display: inline-block;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 10px;
+  padding: 2px;
+}
 .controlDiv {
   color: black;
   flex-grow: 1;
@@ -6885,4 +6899,9 @@ textarea {
   background: rgba(0, 0, 0, 0.8);
   bottom: 0px;
   max-height: 150px;
+}
+.jumbotron {
+  position: fixed;
+  top: 40px;
+  right: 10px;
 }

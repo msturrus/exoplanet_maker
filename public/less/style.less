@@ -141,8 +141,17 @@ textarea {
   text-decoration: underline;
 }
 
-.example {
+#example {
   // display: flex;
+  // position: fixed;
+  // bottom: 0px;
+  // right: 0px;
+  // width: 500px;
+  // padding-left: 10;
+  // padding-right: 10;
+  // max-height: 300px;
+  // margin-left: auto;
+  // margin-right: auto;
 }
 
 #results-container {
@@ -163,10 +172,11 @@ textarea {
 
 #delete-container {
   display: flex;
+  flex-grow: 1;
 }
 
 .planet-div {
-  flex-grow: 1:
+  flex-grow: 1;
   display: inline-block;
   margin-top: 2px;
   margin-bottom: 2px;
@@ -208,4 +218,10 @@ textarea {
   bottom: 0px;
   max-height: 150px;
 
+}
+
+.jumbotron {
+  position: fixed;
+  top: 40px;
+  right: 10px;
 }
