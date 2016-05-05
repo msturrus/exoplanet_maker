@@ -341,7 +341,7 @@ var PlanetForm = React.createClass({
         var planetCamera = new THREE.PerspectiveCamera(75, 250 / 250, 0.1, 10000);
         planetCamera.name = "planetCamera"
 
-        var starCamera = new THREE.PerspectiveCamera(75, 1200 / 600, 0.1, 10000);
+        var starCamera = new THREE.PerspectiveCamera(45, 1200 / 600, 0.1, 10000);
         starCamera.name = "starCamera"
         starCamera.lookAt(starScene.position)
         console.log(starCamera)
