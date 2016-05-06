@@ -326,6 +326,45 @@ var PlanetForm = React.createClass({
           }
         })
       },
+      addRing: function(id){
+        var self = this;
+        var state = this.state;
+        console.log(id);
+        state.planets.map(function(planet, i){
+          var index = state.planets.indexOf(planet)
+          if (planet.id === id) {
+            var loader = new THREE.TextureLoader();
+            var moonGeometry  = new THREE.SphereGeometry(planet.geometry.boundingSphere.radius / 5 + Math.random() * 2, 32, 32)
+            var moonMaterial  = new THREE.MeshPhongMaterial()
+              if (planet.userData.orbitMultiplier < 200) {
+                moonMaterial.map = loader.load('/images/venusmap.jpg')
+                moonMaterial.bumpMap = loader.load('/images/venusbump.jpg')
+              } else if (planet.userData.orbitMultiplier >= 200 && planet.userData.orbitMultiplier < 600) {
+                moonMaterial.map = loader.load('/images/moonmap1k.jpg')
+                moonMaterial.bumpMap = loader.load('/images/moonbump1k.jpg')
+              } else if (planet.userData.orbitMultiplier >= 600 ) {
+                moonMaterial.map = loader.load('/images/plutomap1k.jpg')
+              }
+            var moon  = new THREE.Mesh(moonGeometry, moonMaterial)
+
+            moonMaterial.castShadow = true
+            moonMaterial.receiveShadow = true
+
+
+            moon.userData.rotation = .01
+            moon.userData.orbitPeriod = .002 + Math.random() * .01
+            moon.userData.orbitMultiplier = planet.geometry.boundingSphere.radius * 2 + Math.random()
+            moon.castShadow = true
+            moon.receiveShadow = true
+
+            planet.children.push(moon)
+            console.log(moon)
+            console.log(planet)
+
+            self.setState(state)
+          }
+        })
+      },
       render: function(){
         document.getElementById('planet-preview').innerHTML = ''
         document.getElementById('zone-container').innerHTML = ''
@@ -706,7 +745,7 @@ var PlanetForm = React.createClass({
                   {
 
                     this.state.planets.map(function(planet, i){
-                      return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove} addMoon ={this.addMoon} key={i} />
+                      return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove} addMoon={this.addMoon} addRing={this.addRing} key={i} />
                     }.bind(this))
                   }
                 </div>
@@ -737,12 +776,19 @@ var PlanetForm = React.createClass({
         this.props.addMoon(id)
         console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
       },
+      handleAddRing: function(id){
+        console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
+        console.log(id)
+        this.props.addRing(id)
+        console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
+      },
       render: function() {
         return (
           <div className="planet-div">
               <span className="planet-name">{this.props.name}</span>
               <input type="hidden" name="id" value={this.props.id} />
               <button className="btn btn-success" onClick={this.handleAddMoon.bind(this, this.props.id)}>M!</button>
+              <button className="btn btn-success" onClick={this.handleAddRing.bind(this, this.props.id)}>R!</button>
               <button className="btn btn-danger" onClick={this.handleSubmit.bind(this, this.props.id)}>X</button>
           </div>
         )
