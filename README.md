@@ -10,7 +10,7 @@ It basically does this, but with a solid framerate:
 
  **But How?**
 
-This project uses three.js and react to create an editable stellar system.  You can change the star's size, brightness, color (rgb) values, as well as add an unlimited (fps permitting) number of custom planets and moons.  Then, you can navigate through them with three.js's excellent ![trackball controlls](http://threejs.org/examples/#misc_controls_trackball).  This is all rendered in WebGL, so it might run down your battery a bit.
+This project uses three.js and react to create an editable stellar system.  You can change the star's size, brightness, color (rgb) values, as well as add an unlimited (fps permitting) number of custom planets and moons.  Then, you can navigate through them with three.js's excellent trackball controls(http://threejs.org/examples/#misc_controls_trackball).  This is all rendered in WebGL, so it might run down your battery a bit.
 
 Eventually, you will be able to save them, retrieve them, and edit them.  Look for that probably next week.
 
