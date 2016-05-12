@@ -12,7 +12,7 @@ require('./db/database.js');
 
 var routes = require('./controllers/index');
 var users = require('./controllers/users');
-var charts = require('./controllers/charts');
+var systems = require('./controllers/systems');
 
 var app = express();
 
@@ -49,7 +49,7 @@ app.use(session({
 
 app.use('/', routes);
 app.use('/account', users);
-app.use('/charts', charts)
+app.use('/systems', systems)
 
 // How to handle conditional display of navbar???
 // app.use(function(req, res, next) {

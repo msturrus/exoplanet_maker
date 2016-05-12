@@ -10,7 +10,32 @@ var React     = require('react'),
 
 var PlanetForm = React.createClass({
       getInitialState: function(){
-        return {planets: [], radius: 20, name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 2, starRed: 200, starGreen: 200, starBlue: 100, orbitMultiplier: 400, orbitPeriod: .001}
+        return {planets: [], radius: 20, systemName: "TestSystem", name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 2, starRed: 200, starGreen: 200, starBlue: 100, orbitMultiplier: 400, orbitPeriod: .001}
+      },
+
+      handleSave: function(event){
+        event.preventDefault();
+        var state = this.state
+        var self = this;
+        // var namebox = document.getElementById('sysname-box')
+        //
+        // state.systemName = namebox.value
+        // this.setState(state);
+
+        var contents = this.state
+        console.log(contents)
+        $.ajax({
+          url: '/systems/build',
+          type: 'post',
+          data: contents,
+          dataType: 'json',
+          success: function(){
+            console.log('system sent')
+          },
+          error: function(err){
+            console.log(err)
+          }
+        })
       },
 
       handleRadiusChange: function(event){
@@ -335,27 +360,24 @@ var PlanetForm = React.createClass({
           if (planet.id === id) {
             var loader = new THREE.TextureLoader();
             var moonGeometry  = new THREE.SphereGeometry(planet.geometry.boundingSphere.radius / 5 + Math.random() * 2, 32, 32)
-            var moonMaterial  = new THREE.MeshPhongMaterial()
-              if (planet.userData.orbitMultiplier < 200) {
-                moonMaterial.map = loader.load('/images/venusmap.jpg')
-                moonMaterial.bumpMap = loader.load('/images/venusbump.jpg')
-              } else if (planet.userData.orbitMultiplier >= 200 && planet.userData.orbitMultiplier < 600) {
-                moonMaterial.map = loader.load('/images/moonmap1k.jpg')
-                moonMaterial.bumpMap = loader.load('/images/moonbump1k.jpg')
-              } else if (planet.userData.orbitMultiplier >= 600 ) {
-                moonMaterial.map = loader.load('/images/plutomap1k.jpg')
-              }
-            var moon  = new THREE.Mesh(moonGeometry, moonMaterial)
-
-            moonMaterial.castShadow = true
-            moonMaterial.receiveShadow = true
+            var moonMaterial  = new THREE.MeshStandardMaterial()
+            // moonMaterial.map = loader.load('/images/saturnringcolor.jpg')
+            var color = new THREE.Color("rgb(" + self.state.starRed + "," + self.state.starGreen + "," + self.state.starBlue + ")")
+            moonMaterial.emmissive = color
+            var moon  = new THREE.Mesh(new THREE.RingGeometry(3 * planet.geometry.boundingSphere.radius, planet.geometry.boundingSphere.radius * 10, 32), moonMaterial)
+            console.log("-------MOOON!")
+            console.log(moon)
+            console.log("-------MOOON!")
 
 
-            moon.userData.rotation = .01
-            moon.userData.orbitPeriod = .002 + Math.random() * .01
-            moon.userData.orbitMultiplier = planet.geometry.boundingSphere.radius * 2 + Math.random()
-            moon.castShadow = true
-            moon.receiveShadow = true
+            // createRings(radius, segments) { return new THREE.Mesh(new THREE.XRingGeometry(1.2 * radius, 2 * radius, 2 * segments, 5, 0, Math.PI * 2), new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture('https://cdn.rawgit.com/bubblin/The-Solar-System/master/images/page-60/saturn-rings.png'), side: THREE.DoubleSide, transparent: true, opacity: 0.6 })); }
+
+
+            // moon.userData.rotation = .01
+            // moon.userData.orbitPeriod = .002 + Math.random() * .01
+            // moon.userData.orbitMultiplier = planet.geometry.boundingSphere.radius * 2 + Math.random()
+            // moon.castShadow = true
+            // moon.receiveShadow = true
 
             planet.children.push(moon)
             console.log(moon)
@@ -666,6 +688,10 @@ var PlanetForm = React.createClass({
                   <input id="name-box" type="text" placeholder="Name" />
                   <button className="btn btn-primary" type="submit" value="post">Add</button>
                 </form>
+                <form className="PlanetForm" onSubmit={this.handleSave}>
+                  <input id="sysname-box" type="text" placeholder="System Name" />
+                  <button className="btn btn-info" type="submit" value="post">Save</button>
+                </form>
               </div>
               <div className="controlDiv">
                 <label>Radius Controls</label>
@@ -743,7 +769,6 @@ var PlanetForm = React.createClass({
               <div id="delete-container">
                 <div className="controlDiv">
                   {
-
                     this.state.planets.map(function(planet, i){
                       return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove} addMoon={this.addMoon} addRing={this.addRing} key={i} />
                     }.bind(this))
@@ -765,22 +790,13 @@ var PlanetForm = React.createClass({
     // }
     var PlanetDiv = React.createClass({
       handleSubmit: function(planet){
-        console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
-        console.log(planet)
         this.props.planetRemove(planet)
-        console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
       },
       handleAddMoon: function(id){
-        console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
-        console.log(id)
         this.props.addMoon(id)
-        console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
       },
       handleAddRing: function(id){
-        console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
-        console.log(id)
         this.props.addRing(id)
-        console.log('%$%$$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$')
       },
       render: function() {
         return (

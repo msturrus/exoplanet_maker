@@ -1,5 +1,5 @@
 var User          = require('../models/user'),
-    Chart         = require('../models/chart'),
+    system         = require('../models/system'),
     express       = require('express'),
     router        = express.Router(),
     bcrypt        = require('bcrypt'),
@@ -8,7 +8,7 @@ var User          = require('../models/user'),
     // ------------------ GET home -------------------------
 router.get('/', function(req, res, next) {
   // check if person is logged in?
-  res.render('index', { title: '/Mu/sic Chart Generator | Create Your Own Music Flowcharts' });
+  res.render('index', { title: '/Mu/sic system Generator | Create Your Own Music Flowsystems' });
 }) // ------------------ GET logout -------------------------
 .get('/logout', function(req, res, next) {
   if (req.session.loggedIn === true) {
@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
 .get('/register', function(req, res, next) {
   if (req.session.loggedIn === true) {
     res.redirect('/');
-  } else res.render('register', { title: '/Mu/sic Chart Generator | Register' });
+  } else res.render('register', { title: '/Mu/sic system Generator | Register' });
 
 }) // ------------------ POST register -----------------------
 .post('/register', function(req, res, next) {
@@ -41,10 +41,10 @@ router.get('/', function(req, res, next) {
         req.session.loggedIn = true;
         req.session.currentUserId = user._id;
         req.session.currentUser = user.username;
-        req.session.chartID;
+        req.session.systemID;
         var currentUser = user.username;
         console.log("You have created an account under the name "+ currentUser +" and been logged in.");
-        res.redirect('/charts/build');
+        res.redirect('/systems/build');
       });
     }
   });
@@ -53,7 +53,7 @@ router.get('/', function(req, res, next) {
   if (req.session.loggedIn === true) {
     console.log("You're already logged in!");
     res.redirect('/');
-  } else res.render('login', { title: '/Mu/sic Chart Generator | Login'});
+  } else res.render('login', { title: '/Mu/sic system Generator | Login'});
 }) // ------------------ POST login --------------------------
 .post('/login', function(req, res, next) {
   User.findOne({ username: req.body.username }, function(err, user) {
@@ -64,10 +64,10 @@ router.get('/', function(req, res, next) {
         req.session.loggedIn = true;
         req.session.currentUserId = user._id;
         req.session.currentUser = user.username;
-        req.session.chartID;
+        req.session.systemID;
         var currentUser = user.username;
         console.log("Welcome to the site, "+ currentUser);
-        res.redirect('/charts/build');
+        res.redirect('/systems/build');
       } else {
           console.log("The username or password you entered was incorrect.");
           res.redirect('/login');
@@ -79,9 +79,9 @@ router.get('/', function(req, res, next) {
   });
 })
 .get('/api', function(req, res, next) {
-  Chart.find(function(err, charts) {
+  system.find(function(err, systems) {
     if (err) return next(err);
-    res.json(charts);
+    res.json(systems);
   })
 });
 
