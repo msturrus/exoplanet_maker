@@ -17,10 +17,10 @@ var PlanetForm = React.createClass({
         event.preventDefault();
         var state = this.state
         var self = this;
-        // var namebox = document.getElementById('sysname-box')
-        //
-        // state.systemName = namebox.value
-        // this.setState(state);
+        var namebox = document.getElementById('sysname-box')
+
+        state.systemName = namebox.value
+        this.setState(state);
 
         var contents = this.state
         console.log(contents)

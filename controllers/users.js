@@ -1,5 +1,5 @@
 var User          = require('../models/user'),
-    Chart         = require('../models/system'),
+    System         = require('../models/system'),
     express       = require('express'),
     router        = express.Router();
 
@@ -9,9 +9,10 @@ router.get('/', function(req, res, next) {
     res.render('account', { title: "/Mu/sic Chart Generator | My Account", username: req.session.currentUser});
   } else res.redirect('/login');
 })
-.get('/accountSystems', function(req, res, next) {
-    System.find({ authorId: req.session.currentUserId }, function(err, chart) {
-      res.send(chart);
+.get('/accountsystems', function(req, res, next) {
+    System.find({ authorId: req.session.currentUserId }, function(err, system) {
+      console.log(system)
+      res.send(system);
     })
 });
 // .post('/edit', function(req, res, next) {
