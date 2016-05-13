@@ -12,7 +12,7 @@ var React     = require('react'),
 //     }});
 
 
-var Usersystem = React.createClass({
+var UserSystem = React.createClass({
       getInitialState: function(){
         return {systems: []}
       },
@@ -30,16 +30,19 @@ var Usersystem = React.createClass({
                 // return self.state.items = response;
 
                 response.forEach(function(system){
-                  // state = self.state;
-                  self.state.systems.push(system);
-                  self.setState();
-                  // self.setState(state);
+                  var state = self.state;
+                  // self.state.systems.push(system);
+                  // self.setState();
+                  state.systems.push(system);
+
+                  self.setState(state);
                 })
               },
               error: function(err){
                 console.log(err)
               }
             })
+            console.log("THESE ARE THE SYSTEMSSSSSSSSSSS")
             console.log(self.state.systems)
          },
 
@@ -59,7 +62,7 @@ var Usersystem = React.createClass({
 
             {
               this.state.systems.map(function(system, i){
-                return <systemDiv systemName={system.nameOfsystem} systemID={system._id} contents={system.contents} key={i} />
+                return <SystemDiv systemName={system.nameOfSystem} systemID={system._id} key={i} />
               }.bind(this))
             }
 
@@ -69,7 +72,7 @@ var Usersystem = React.createClass({
       }
     })
 
-    var systemDiv = React.createClass({
+    var SystemDiv = React.createClass({
       render: function() {
         return (
 
@@ -91,7 +94,7 @@ var Usersystem = React.createClass({
       }
     })
 
-    ReactDOM.render(<Usersystem/>, document.getElementById('user-system'))
+    ReactDOM.render(<UserSystem/>, document.getElementById('user-system'))
 
     // <div draggable="true" className="album-div">
     // <img src={this.state.albumCover} draggable="false" />

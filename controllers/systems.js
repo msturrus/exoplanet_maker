@@ -18,7 +18,7 @@ router.get('/build', function(req, res, next) {
   //   res.send('item saved');
   // });
   system.create({
-    nameOfSystem : req.body.systemName,
+    nameOfSystem : req.body.nameOfSystem,
     authorId    : req.session.currentUserId,
     state    : req.body
   }, function(err, system) {

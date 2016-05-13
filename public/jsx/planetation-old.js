@@ -25,13 +25,15 @@ var PlanetForm = React.createClass({
 
         console.log(testPlanets)
         state.planets = []
-        var contents = state
+        var contents = {
+          nameOfSystem: state.systemName,
+          state: state
+        }
         // var contents = JSON.stringify(this.state)
         console.log(contents)
         $.ajax({
           url: '/systems/build',
           type: 'post',
-          async: 'false',
           data: contents,
           dataType: 'json',
           success: function(){
