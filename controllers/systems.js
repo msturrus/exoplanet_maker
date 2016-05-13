@@ -49,7 +49,7 @@ router.get('/build', function(req, res, next) {
   res.redirect('/account');
 })
 .post('/edit', function(req, res, next) {
-  system.findByIdAndUpdate(req.session.systemID, { nameOfsystem: req.body.nameOfsystem, contents: req.body.system }, function (err, system) {
+  system.findByIdAndUpdate(req.session.systemID, { nameOfsystem: req.body.nameOfSystem, state: req.body.state }, function (err, system) {
   console.log(system);
   })
   res.redirect('/account')
