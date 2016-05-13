@@ -10,7 +10,7 @@ var React     = require('react'),
 
 var PlanetForm = React.createClass({
       getInitialState: function(){
-        return {planets: [], radius: 20, systemName: "TestSystem", name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 2, starRed: 200, starGreen: 200, starBlue: 100, orbitMultiplier: 400, orbitPeriod: .001}
+        return {planets: [], savePlanets: [], radius: 20, systemName: "TestSystem", name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 2, starRed: 200, starGreen: 200, starBlue: 100, orbitMultiplier: 400, orbitPeriod: .001}
       },
 
       handleSave: function(event){
@@ -18,15 +18,20 @@ var PlanetForm = React.createClass({
         var state = this.state
         var self = this;
         var namebox = document.getElementById('sysname-box')
-
         state.systemName = namebox.value
         this.setState(state);
 
-        var contents = this.state
+        var testPlanets = JSON.stringify(this.state.savePlanets)
+
+        console.log(testPlanets)
+        state.planets = []
+        var contents = state
+        // var contents = JSON.stringify(this.state)
         console.log(contents)
         $.ajax({
           url: '/systems/build',
           type: 'post',
+          async: 'false',
           data: contents,
           dataType: 'json',
           success: function(){
@@ -287,14 +292,26 @@ var PlanetForm = React.createClass({
         planet.castShadow = true
         planet.receiveShadow = true
 
+        var savePlanet = {}
 
+        savePlanet.name = planet.name
+        savePlanet.rotation = planet.userData.rotation
+        savePlanet.orbitPeriod = planet.userData.orbitPeriod
+        savePlanet.orbitMultiplier = planet.userData.orbitMultiplier
+        savePlanet.castShadow = true
+        savePlanet.receiveShadow = true
+        savePlanet.id = planet.id
 
+        console.log("save planetx-------------------------------")
         console.log(planet)
+        console.log(savePlanet)
+        console.log("save planetx-------------------------------")
 
 
         // scene.add(planet);
 
         self.state.planets.push(planet);
+        self.state.savePlanets.push(savePlanet)
         self.setState(state);
 
         console.log(self.state.planets)
@@ -304,6 +321,14 @@ var PlanetForm = React.createClass({
         var state = this.state;
         console.log(id);
         state.planets.map(function(planet, i){
+          var index = state.planets.indexOf(planet)
+          if (planet.id === id) {
+            state.planets.splice(index, 1)
+            self.setState(state)
+          }
+        })
+
+        state.savePlanets.map(function(planet, i){
           var index = state.planets.indexOf(planet)
           if (planet.id === id) {
             state.planets.splice(index, 1)

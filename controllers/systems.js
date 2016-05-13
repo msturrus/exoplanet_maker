@@ -10,6 +10,7 @@ router.get('/build', function(req, res, next) {
   } else res.redirect('/login');
 })
 .post('/build', function(req, res, next) {
+  console.log(req.body)
 
   // systemModel = db.model('item'),
   // newsystem = new systemModel();
@@ -17,13 +18,14 @@ router.get('/build', function(req, res, next) {
   //   res.send('item saved');
   // });
   system.create({
-    nameOfsystem : req.body.systemName,
+    nameOfSystem : req.body.systemName,
     authorId    : req.session.currentUserId,
-    contents    : req.body
+    state    : req.body
   }, function(err, system) {
     console.log("You have created a system!");
     // console.log(db.system.find({}));
-    res.redirect('/account');
+    console.log(system)
+    // res.redirect('/account');
   })
 })
 // ---------------- VIEW system ------------------
