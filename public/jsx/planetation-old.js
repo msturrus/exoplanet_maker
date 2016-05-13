@@ -21,13 +21,19 @@ var PlanetForm = React.createClass({
         state.systemName = namebox.value
         this.setState(state);
 
-        var testPlanets = JSON.stringify(this.state.savePlanets)
+        // var testPlanets = JSON.stringify(this.state.savePlanets)
+        var sendPlanets = []
+        state.savePlanets.map(function(planet, i){
+          sendPlanets.push(planet)
+        });
 
-        console.log(testPlanets)
+        console.log(sendPlanets)
+
         state.planets = []
         var contents = {
           nameOfSystem: state.systemName,
-          state: state
+          state: state,
+          planets: JSON.stringify(sendPlanets)
         }
         // var contents = JSON.stringify(this.state)
         console.log(contents)
@@ -297,6 +303,7 @@ var PlanetForm = React.createClass({
         var savePlanet = {}
 
         savePlanet.name = planet.name
+        savePlanet.radius = self.state.radius
         savePlanet.rotation = planet.userData.rotation
         savePlanet.orbitPeriod = planet.userData.orbitPeriod
         savePlanet.orbitMultiplier = planet.userData.orbitMultiplier

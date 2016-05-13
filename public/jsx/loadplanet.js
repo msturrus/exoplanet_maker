@@ -14,6 +14,8 @@ var PlanetForm = React.createClass({
       },
 
       componentDidMount: function(){
+        var self = this;
+        var state = this.state;
         $.ajax({
           url: '/systems/getsystem',
           type: 'get',
@@ -21,8 +23,47 @@ var PlanetForm = React.createClass({
           dataType: 'json',
           success: function(data){
             console.log(data)
-            contents = data.contents;
-            var contents = data.contents
+            var planetArray = JSON.parse(data.state.planets)
+            console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            console.log(planetArray)
+            console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            planetArray.map(function(planet, i){
+              self.state.savePlanets.push(planet)
+              var planetGeometry = new THREE.SphereGeometry(planet.radius, 32, 32)
+
+              var loader = new THREE.TextureLoader();
+
+
+              var material = new THREE.MeshPhongMaterial()
+                if (planet.radius < 10) {
+                  material.map = loader.load('/images/mercurymap.jpg')
+                  material.bumpMap = loader.load('/images/mercurybump.jpg')
+                } else if (planet.radius >= 10 && planet.radius < 20) {
+                  material.map = loader.load('/images/marsmap1k.jpg')
+                  material.bumpMap = loader.load('/images/marsbump1k.jpg')
+                } else if (planet.radius >= 20 && planet.radius < 35) {
+                  material.map = loader.load('/images/earthmap1k.jpg')
+                  material.bumpMap = loader.load('/images/earthbump1k.jpg')
+                  material.specularMap = loader.load('/images/earthspec1k.jpg')
+                } else if (planet.radius >= 35 && planet.radius < 50) {
+                  material.map = loader.load('/images/neptunemap.jpg')
+                } else if (planet.radius >= 50 ) {
+                  material.map = loader.load('/images/jupitermap.jpg')
+                }
+
+
+              var planet3 = new THREE.Mesh(planetGeometry, material)
+              planet3.name = planet.name
+              planet3.userData.rotation = planet.rotation
+              planet3.userData.orbitPeriod = planet.orbitPeriod
+              planet3.userData.orbitMultiplier = planet.orbitMultiplier
+              planet3.castShadow = true
+              planet3.receiveShadow = true
+
+              state.planets.push(planet3)
+              self.setState(state)
+
+            });
 
           },
           error: function(err){
