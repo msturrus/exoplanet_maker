@@ -82,7 +82,7 @@ var PlanetForm = React.createClass({
         event.preventDefault()
         var state = this.state;
         var radius = state.radius;
-        radius = radius + 1;
+        radius = parseFloat(radius) + 1;
         state.radius = radius;
         this.setState(state);
       },
@@ -91,7 +91,7 @@ var PlanetForm = React.createClass({
         event.preventDefault()
         var state = this.state;
         var radius = state.radius;
-        radius = radius - 1;
+        radius = parseFloat(radius) - 1;
         state.radius = radius;
         this.setState(state);
       },
@@ -100,7 +100,7 @@ var PlanetForm = React.createClass({
         event.preventDefault()
         var state = this.state;
         var rotation = state.rotation;
-        rotation = rotation + .01;
+        rotation = parseFloat(rotation) + parseFloat(.01);
         state.rotation = rotation;
         this.setState(state);
       },
@@ -109,7 +109,7 @@ var PlanetForm = React.createClass({
         event.preventDefault()
         var state = this.state;
         var rotation = state.rotation;
-        rotation = rotation - .01;
+        rotation = parseFloat(rotation) - parseFloat(.01);
         state.rotation = rotation;
         this.setState(state);
       },
@@ -213,7 +213,7 @@ var PlanetForm = React.createClass({
         console.log(event.target.value)
         var state = this.state;
         var orbit = state.orbitMultiplier;
-        orbit = orbit + 100;
+        orbit = parseFloat(orbit) + 100;
         state.orbitMultiplier = orbit;
         this.setState(state);
         console.log(this.state)
@@ -224,7 +224,7 @@ var PlanetForm = React.createClass({
         console.log(event.target.value)
         var state = this.state;
         var orbit = state.orbitMultiplier;
-        orbit = orbit - 100;
+        orbit = parseFloat(orbit) - 100;
         state.orbitMultiplier = orbit;
         this.setState(state);
         console.log(this.state)
@@ -243,7 +243,7 @@ var PlanetForm = React.createClass({
         console.log(event.target.value)
         var state = this.state;
         var period = state.orbitPeriod;
-        period = period + .001;
+        period = parseFloat(period) + .001;
         state.orbitPeriod = period;
         this.setState(state);
         console.log(this.state)
@@ -254,7 +254,7 @@ var PlanetForm = React.createClass({
         console.log(event.target.value)
         var state = this.state;
         var period = state.orbitPeriod;
-        period = period - .001;
+        period = parseFloat(period) - .001;
         state.orbitPeriod = period;
         this.setState(state);
         console.log(this.state)
@@ -303,7 +303,7 @@ var PlanetForm = React.createClass({
         var savePlanet = {}
 
         savePlanet.name = planet.name
-        savePlanet.radius = self.state.radius
+
         savePlanet.rotation = planet.userData.rotation
         savePlanet.orbitPeriod = planet.userData.orbitPeriod
         savePlanet.orbitMultiplier = planet.userData.orbitMultiplier
