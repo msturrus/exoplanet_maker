@@ -1,6 +1,8 @@
 
 #Exoplanet generator
 
+Link: https://universalplanetator.herokuapp.com/
+
 It basically does this, but with a solid framerate:
 
  -![WIREFRAME 1](planetation.gif)
