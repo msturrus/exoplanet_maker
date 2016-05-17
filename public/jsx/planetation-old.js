@@ -10,7 +10,7 @@ var React     = require('react'),
 
 var PlanetForm = React.createClass({
       getInitialState: function(){
-        return {planets: [], savePlanets: [], radius: 20, systemName: "TestSystem", name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 2, starRed: 200, starGreen: 200, starBlue: 100, orbitMultiplier: 400, orbitPeriod: .001}
+        return {planets: [], savePlanets: [], radius: 20, systemName: "TestSystem", name: "TestPlanet", rotation: .01, tilt: 0, starRadius: 60, starBrightness: 2, starRed: 200, starGreen: 200, starBlue: 100, orbitMultiplier: 400, orbitPeriod: .0005}
       },
 
       handleSave: function(event){
