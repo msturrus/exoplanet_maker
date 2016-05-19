@@ -6,7 +6,7 @@ var User          = require('../models/user'),
 // ------------------ GET system-builder --------------------
 router.get('/build', function(req, res, next) {
   if(req.session.loggedIn === true) {
-    res.render('system-builder', { title: '/Mu/sic system Generator | system Builder' });
+    res.render('system-builder', { title: 'Universal Planetator | system Builder' });
   } else res.redirect('/login');
 })
 .post('/build', function(req, res, next) {
