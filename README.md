@@ -3,23 +3,23 @@
 
 Link: https://universalplanetator.herokuapp.com/
 
-It basically does this, but with a solid framerate:
+It basically does this:
 
  -!(planetation.gif)
 
 **But How?**
 
-This project uses three.js and react to create an editable stellar system.  You can change the star's size, brightness, color (rgb) values, as well as add an unlimited (fps permitting) number of custom planets and moons.  Then, you can navigate through them with three.js's excellent trackball controls(http://threejs.org/examples/#misc_controls_trackball).  This is all rendered in WebGL, so it might run down your battery a bit.
+This project uses three.js and react to create an editable stellar system.  You can change the star's size, brightness, color (rgb) values, as well as add an unlimited (fps permitting) number of custom planets and moons.  Then, you can navigate through them with three.js's excellent trackball controls(http://threejs.org/examples/#misc_controls_trackball).  This is all rendered with the Three.js WebGL renderer.
 
-Eventually, you will be able to save them, retrieve them, and edit them.  Look for that probably next week.
+Eventually, you will be able to save them, retrieve them, and edit them.
 
-React is used to draw the scene and controls based on input provided by the user.
+React is used to render the controls.
 
 **Instructions for use**
 
 These will become less necessary as the UI gets cleaned up, but right now it's a mess, so listen up:
 
-These are the controls (please don't laugh I have not gotten much CSS done on this thing)
+These are the controls:
 
 -![TUTORIAL](tutorial.png)
 
@@ -47,14 +47,14 @@ To view the scene without the controls visible, you can toggle them on and off w
   -CSS
   -html
   -bootstrap
-  -mongoDB (coming soon!)
+  -mongoDB
 
 
 **Unsolved Problems**
 
-Rings are tricky.  I also have to clean up the react a LOT.  Also, lots and lots and lots of CSS to do.  Also, the whole back end, minus login.
+Rings are tricky.  I also have to clean up the react.  Also, lots and lots and lots of CSS to do.
 
-The camera loses its position in between scene updates
+The camera loses its position in between scene updates.
 
 There is a momentary flicker while the scene renders.  Unsure how to fix.
 
