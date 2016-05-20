@@ -57,6 +57,7 @@ var PlanetForm = React.createClass({
               planet3.userData.rotation = planet.rotation
               planet3.userData.orbitPeriod = planet.orbitPeriod
               planet3.userData.orbitMultiplier = planet.orbitMultiplier
+              // planet3.userData.radius = planet.radius
               planet3.castShadow = true
               planet3.receiveShadow = true
 
