@@ -307,6 +307,7 @@ var PlanetForm = React.createClass({
         savePlanet.rotation = planet.userData.rotation
         savePlanet.orbitPeriod = planet.userData.orbitPeriod
         savePlanet.orbitMultiplier = planet.userData.orbitMultiplier
+        savePlanet.radius = self.state.radius
         savePlanet.castShadow = true
         savePlanet.receiveShadow = true
         savePlanet.id = planet.id
