@@ -17,16 +17,18 @@ router.get('/build', function(req, res, next) {
   // new systemModel(req.body).save(function (e) {
   //   res.send('item saved');
   // });
-  system.create({
-    nameOfSystem : req.body.nameOfSystem,
-    authorId    : req.session.currentUserId,
-    state    : req.body
-  }, function(err, system) {
-    console.log("You have created a system!");
-    // console.log(db.system.find({}));
-    console.log(system)
-    // res.redirect('/account');
-  })
+  if(req.session.loggedIn === true) {
+    system.create({
+      nameOfSystem : req.body.nameOfSystem,
+      authorId    : req.session.currentUserId,
+      state    : req.body
+    }, function(err, system) {
+      console.log("You have created a system!");
+      // console.log(db.system.find({}));
+      console.log(system)
+      // res.redirect('/account');
+    })
+  } else res.redirect('/login');
 })
 // ---------------- VIEW system ------------------
 .post('/viewsystem', function(req, res, next) {
