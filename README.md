@@ -5,7 +5,7 @@ Link: https://universalplanetator.herokuapp.com/
 
 It basically does this:
 
- -!(planetation.gif)
+ -![PLANETATION](planetation.gif)
 
 **But How?**
 
