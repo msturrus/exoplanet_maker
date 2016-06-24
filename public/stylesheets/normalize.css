@@ -425,3 +425,7 @@ td,
 th {
   padding: 0;
 }
+
+input[type="text"] {
+  max-width: 90%;
+}
