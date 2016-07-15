@@ -332,7 +332,10 @@ var PlanetForm = React.createClass({
         console.log(id);
         state.planets.map(function(planet, i){
           var index = state.planets.indexOf(planet)
-          if (planet.id === id) {
+          if (planet.uuid === id) {
+            console.log("=================")
+            console.log(index)
+            console.log("=================")
             state.planets.splice(index, 1)
             self.setState(state)
           }
@@ -340,7 +343,7 @@ var PlanetForm = React.createClass({
 
         state.savePlanets.map(function(planet, i){
           var index = state.planets.indexOf(planet)
-          if (planet.id === id) {
+          if (planet.uuid === id) {
             state.planets.splice(index, 1)
             self.setState(state)
           }
@@ -353,7 +356,7 @@ var PlanetForm = React.createClass({
         console.log(id);
         state.planets.map(function(planet, i){
           var index = state.planets.indexOf(planet)
-          if (planet.id === id) {
+          if (planet.uuid === id) {
             var loader = new THREE.TextureLoader();
             var moonGeometry  = new THREE.SphereGeometry(planet.geometry.boundingSphere.radius / 5 + Math.random() * 2, 32, 32)
             var moonMaterial  = new THREE.MeshPhongMaterial()
@@ -392,7 +395,7 @@ var PlanetForm = React.createClass({
         console.log(id);
         state.planets.map(function(planet, i){
           var index = state.planets.indexOf(planet)
-          if (planet.id === id) {
+          if (planet.uuid === id) {
             var loader = new THREE.TextureLoader();
             var moonGeometry  = new THREE.SphereGeometry(planet.geometry.boundingSphere.radius / 5 + Math.random() * 2, 32, 32)
             var moonMaterial  = new THREE.MeshStandardMaterial()
@@ -805,7 +808,7 @@ var PlanetForm = React.createClass({
                 <div className="controlDiv">
                   {
                     this.state.planets.map(function(planet, i){
-                      return <PlanetDiv id={planet.id} name={planet.name} planetRemove={this.planetRemove} addMoon={this.addMoon} addRing={this.addRing} key={i} />
+                      return <PlanetDiv id={planet.uuid} name={planet.name} planetRemove={this.planetRemove} addMoon={this.addMoon} addRing={this.addRing} key={i} />
                     }.bind(this))
                   }
                 </div>
@@ -824,8 +827,8 @@ var PlanetForm = React.createClass({
     //   }.bind(this))
     // }
     var PlanetDiv = React.createClass({
-      handleSubmit: function(planet){
-        this.props.planetRemove(planet)
+      handleSubmit: function(id){
+        this.props.planetRemove(id)
       },
       handleAddMoon: function(id){
         this.props.addMoon(id)
